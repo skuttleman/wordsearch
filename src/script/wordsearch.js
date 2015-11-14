@@ -1,3 +1,10 @@
+var testWords = ['apple', 'pear', 'banana', 'other fruit', 'zebra',
+  'cornacopia', 'razzle-dazzle', 'jumble', 'plankton', 'draught',
+  'carnivore', 'pheasant', 'test', 'data', 'fiber', 'soylent',
+  'sunflower', 'carbohydrate', 'fifth', 'constitution', 'metabolism',
+  'beets', 'oil', 'biohazard', 'natural', 'protein', 'improvement',
+  'profile', 'powder', 'rice', 'building', 'view', 'concert'];
+
 function blankPuzzle(size, fill) {
   var ret = [];
   for (var i = 0; i < size; i ++) {
@@ -33,7 +40,7 @@ function resize(grid, minSize, fill) {
   return ret;
 }
 
-function getDirection(text) {
+function stepDirection(text) {
   if (text === 'vertical') return { rowStep: 1, colStep: 0 };
   else if (text === 'diagonal up') return { rowStep: -1, colStep: 1 };
   else if (text === 'diagonal down') return { rowStep: 1, colStep: 1 };
@@ -42,7 +49,7 @@ function getDirection(text) {
 
 function insert(params) {
   params = deepCopy(params);
-  params.direction = getDirection(params.direction);
+  params.direction = stepDirection(params.direction);
   for (var i = 0; i < params.word.length; i ++) {
     var space = params.grid[params.start.row][params.start.col];
     var letter = (params.reverse) ?
@@ -67,6 +74,50 @@ function fillRandom(grid) {
   return ret;
 }
 
+function range(start, end, inclusive) {
+  var ret = [];
+  for (var i = start; i < end + (Number(inclusive) || 0); i ++) {
+    ret.push(i);
+  }
+  return ret;
+}
+
+function combinationRanges(rows, cols, direction) {
+  var ret = [];
+  for (var i = 0; i < rows.length; i ++) {
+    for (var j = 0; j < cols.length; j ++) {
+      ret.push({ row: rows[i], col: cols[j], direction: direction });
+    }
+  }
+  return ret;
+}
+
+function getMatrix(grid, word, direction) {
+  var minRow = (direction === 'diagonal up') ?
+    word.length - 1 : 0;
+  var minCol = 0;
+  var maxRow = (direction === 'horizontal' || direction === 'diagonal up') ?
+    grid.length - 1: grid.length - word.length;
+  var maxCol = (direction === 'vertical') ?
+    grid.length - 1 : grid.length - word.length;
+
+  return combinationRanges(
+    range(minRow, maxRow, true), range(minCol, maxCol, true), direction
+  );
+}
+
+function concatMatrices(grid, word, directions) {
+  var ret = [];
+  for (var i = 0; i < directions.length; i ++) {
+    ret = ret.concat(getMatrix(grid, word, directions[i]));
+  }
+  return ret;
+}
+
+
+
 module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
-  randomLetter: randomLetter, resize: resize, getDirection: getDirection,
-  insert: insert, fillRandom: fillRandom };
+  randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
+  insert: insert, fillRandom: fillRandom, range: range,
+  combinationRanges: combinationRanges, concatMatrices: concatMatrices,
+  getMatrix: getMatrix };

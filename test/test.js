@@ -57,10 +57,10 @@ describe('Test Suite for: wordsearch', function() {
   });
 
   it('should translate direction into object', function() {
-    expect(wordsearch.getDirection('horizontal')).to.deep.equal({ rowStep: 0, colStep: 1 });
-    expect(wordsearch.getDirection('vertical')).to.deep.equal({ rowStep: 1, colStep: 0 });
-    expect(wordsearch.getDirection('diagonal up')).to.deep.equal({ rowStep: -1, colStep: 1 });
-    expect(wordsearch.getDirection('diagonal down')).to.deep.equal({ rowStep: 1, colStep: 1 });
+    expect(wordsearch.stepDirection('horizontal')).to.deep.equal({ rowStep: 0, colStep: 1 });
+    expect(wordsearch.stepDirection('vertical')).to.deep.equal({ rowStep: 1, colStep: 0 });
+    expect(wordsearch.stepDirection('diagonal up')).to.deep.equal({ rowStep: -1, colStep: 1 });
+    expect(wordsearch.stepDirection('diagonal down')).to.deep.equal({ rowStep: 1, colStep: 1 });
   });
 
   it('should insert horizontal word starting at a given position', function() {
@@ -404,7 +404,7 @@ describe('Test Suite for: wordsearch', function() {
       );
   });
 
-  it('fill in a partial puzzle with random letters', function() {
+  it('fschool ill in a partial puzzle with random letters', function() {
     var ret = wordsearch.fillRandom(blankNine), isFilled = true, i, j;
     for (i = 0; i < ret.length; i ++) {
       for (j = 0; j < ret[i].length; j ++) {
@@ -423,6 +423,125 @@ describe('Test Suite for: wordsearch', function() {
     expect(isFilled).to.equal(true);
   });
 
+  it('should make an array of integers from', function() {
+    expect(wordsearch.range(0, 1)).to.deep.equal([0]);
+    expect(wordsearch.range(-1, 13)).to.deep.equal([-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(wordsearch.range(10, 20, false)).to.deep.equal([10, 11, 12, 13, 14, 15, 16, 17, 18, 19]);
+
+    expect(wordsearch.range(0, 1, true)).to.deep.equal([0, 1]);
+    expect(wordsearch.range(-1, 13, true)).to.deep.equal([-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+    expect(wordsearch.range(10, 20, true)).to.deep.equal([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+  });
+
+  it('should create combinations of arrays into row, col pairs', function() {
+    expect(wordsearch.combinationRanges([0, 1], [2, 3], 'diagonal up')).to
+      .deep.equal(
+        [{ row: 0, col: 2, direction: 'diagonal up' },
+        { row: 0, col: 3, direction: 'diagonal up' },
+        { row: 1, col: 2, direction: 'diagonal up' },
+        { row: 1, col: 3, direction: 'diagonal up' }
+      ]
+    );
+
+    expect(wordsearch.combinationRanges([0, 1, 2, 3, 4], [5, 6, 7],
+      'horizontal')).to.deep.equal(
+        [{ row: 0, col: 5, direction: 'horizontal' },
+        { row: 0, col: 6, direction: 'horizontal' },
+        { row: 0, col: 7, direction: 'horizontal' },
+        { row: 1, col: 5, direction: 'horizontal' },
+        { row: 1, col: 6, direction: 'horizontal' },
+        { row: 1, col: 7, direction: 'horizontal' },
+        { row: 2, col: 5, direction: 'horizontal' },
+        { row: 2, col: 6, direction: 'horizontal' },
+        { row: 2, col: 7, direction: 'horizontal' },
+        { row: 3, col: 5, direction: 'horizontal' },
+        { row: 3, col: 6, direction: 'horizontal' },
+        { row: 3, col: 7, direction: 'horizontal' },
+        { row: 4, col: 5, direction: 'horizontal' },
+        { row: 4, col: 6, direction: 'horizontal' },
+        { row: 4, col: 7, direction: 'horizontal' }
+      ]
+    );
+  });
+
+  it('should create combinations of arrays into row, col pairs', function() {
+    expect(wordsearch.getMatrix(blankTen, 'palacial', 'diagonal down')).to
+      .deep.equal(
+        [{ row: 0, col: 0, direction: 'diagonal down' },
+        { row: 0, col: 1, direction: 'diagonal down' },
+        { row: 0, col: 2, direction: 'diagonal down' },
+        { row: 1, col: 0, direction: 'diagonal down' },
+        { row: 1, col: 1, direction: 'diagonal down' },
+        { row: 1, col: 2, direction: 'diagonal down' },
+        { row: 2, col: 0, direction: 'diagonal down' },
+        { row: 2, col: 1, direction: 'diagonal down' },
+        { row: 2, col: 2, direction: 'diagonal down' }
+      ]
+    );
+
+    expect(wordsearch.getMatrix(blankNine, 'rabbits', 'horizontal')).to
+      .deep.equal(
+        [{ row: 0, col: 0, direction: 'horizontal' },
+        { row: 0, col: 1, direction: 'horizontal' },
+        { row: 0, col: 2, direction: 'horizontal' },
+        { row: 1, col: 0, direction: 'horizontal' },
+        { row: 1, col: 1, direction: 'horizontal' },
+        { row: 1, col: 2, direction: 'horizontal' },
+        { row: 2, col: 0, direction: 'horizontal' },
+        { row: 2, col: 1, direction: 'horizontal' },
+        { row: 2, col: 2, direction: 'horizontal' },
+        { row: 3, col: 0, direction: 'horizontal' },
+        { row: 3, col: 1, direction: 'horizontal' },
+        { row: 3, col: 2, direction: 'horizontal' },
+        { row: 4, col: 0, direction: 'horizontal' },
+        { row: 4, col: 1, direction: 'horizontal' },
+        { row: 4, col: 2, direction: 'horizontal' },
+        { row: 5, col: 0, direction: 'horizontal' },
+        { row: 5, col: 1, direction: 'horizontal' },
+        { row: 5, col: 2, direction: 'horizontal' },
+        { row: 6, col: 0, direction: 'horizontal' },
+        { row: 6, col: 1, direction: 'horizontal' },
+        { row: 6, col: 2, direction: 'horizontal' },
+        { row: 7, col: 0, direction: 'horizontal' },
+        { row: 7, col: 1, direction: 'horizontal' },
+        { row: 7, col: 2, direction: 'horizontal' },
+        { row: 8, col: 0, direction: 'horizontal' },
+        { row: 8, col: 1, direction: 'horizontal' },
+        { row: 8, col: 2, direction: 'horizontal' }
+      ]
+    );
+
+    expect(wordsearch.getMatrix(blankTen, 'charboiled', 'vertical')).to
+      .deep.equal(
+        [{ row: 0, col: 0, direction: 'vertical' },
+        { row: 0, col: 1, direction: 'vertical' },
+        { row: 0, col: 2, direction: 'vertical' },
+        { row: 0, col: 3, direction: 'vertical' },
+        { row: 0, col: 4, direction: 'vertical' },
+        { row: 0, col: 5, direction: 'vertical' },
+        { row: 0, col: 6, direction: 'vertical' },
+        { row: 0, col: 7, direction: 'vertical' },
+        { row: 0, col: 8, direction: 'vertical' },
+        { row: 0, col: 9, direction: 'vertical' }
+      ]
+    );
+  });
+
+  it('should create combinations of arrays into row, col pairs', function() {
+    expect(wordsearch.concatMatrices(blankNine, 'palacial', ['diagonal up',
+    'diagonal down'])).to.deep.equal(
+        [{ row: 7, col: 0, direction: 'diagonal up' },
+        { row: 7, col: 1, direction: 'diagonal up' },
+        { row: 8, col: 0, direction: 'diagonal up' },
+        { row: 8, col: 1, direction: 'diagonal up' },
+        { row: 0, col: 0, direction: 'diagonal down' },
+        { row: 0, col: 1, direction: 'diagonal down' },
+        { row: 1, col: 0, direction: 'diagonal down' },
+        { row: 1, col: 1, direction: 'diagonal down' }
+      ]
+    );
+  });
+  
   // xit('should fail', function() {
   //   expect(true).to.equal(false);
   // });
