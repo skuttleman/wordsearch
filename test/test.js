@@ -423,7 +423,7 @@ describe('Test Suite for: wordsearch', function() {
     expect(isFilled).to.equal(true);
   });
 
-  it('should fail', function() {
-    expect(true).to.equal(false);
-  });
+  // xit('should fail', function() {
+  //   expect(true).to.equal(false);
+  // });
 });
