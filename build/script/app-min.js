@@ -1,5 +1,1 @@
-function add(a, b) {
-  return a + b;
-}
-
-module.exports = { add: add }
+function add(e,r){return e+r}function blankPuzzle(e,r){for(var o=[],n=0;e>n;n++){for(var t=[],a=0;e>a;a++)t.push(r);o.push(t.slice())}return o}function deepCopy(e){var r=e instanceof Array?[]:{};for(var o in e)"object"==typeof e[o]?r[o]=deepCopy(e[o]):r[o]=e[o];return r}function randomLetter(){var e=Math.floor(26*Math.random());return"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[e]}function resize(e,r,o){deepCopy(e)}module.exports={add:add},module.exports={blankPuzzle:blankPuzzle,deepCopy:deepCopy,randomLetter:randomLetter,resize:resize};
