@@ -65,7 +65,7 @@ describe('Test Suite for: wordsearch', function() {
 
   it('should insert horizontal word starting at a given position', function() {
     expect(wordsearch.insert({ grid: blankNine, word: 'aardvark',
-      start: { row: 0, col: 0}, direction: 'horizontal' }))
+      start: { row: 0, col: 0}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['A','A','R','D','V','A','R','K','-'],
          ['-','-','-','-','-','-','-','-','-'],
@@ -79,7 +79,7 @@ describe('Test Suite for: wordsearch', function() {
       );
 
     expect(wordsearch.insert({ grid: blankTen, word: 'Children',
-      start: { row: 3, col: 1}, direction: 'horizontal' }))
+      start: { row: 3, col: 1}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -94,7 +94,7 @@ describe('Test Suite for: wordsearch', function() {
       );
 
     expect(wordsearch.insert({ grid: blankNine, word: 'TARGET',
-      start: { row: 7, col: 2}, direction: { rowStep: 0, colStep: 1 } }))
+      start: { row: 7, col: 2}, direction: { rowStep: 0, colStep: 1 } }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-'],
@@ -108,7 +108,7 @@ describe('Test Suite for: wordsearch', function() {
       );
 
     expect(wordsearch.insert({ grid: blankTen, word: 'mOnKey',
-      start: { row: 1, col: 4}, direction: 'horizontal' }))
+      start: { row: 1, col: 4}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','M','O','N','K','E','Y'],
@@ -134,7 +134,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','A','-','-','I','-'],
          ['-','-','-','-','R','-','-','L','-']],
       word: 'lIFe',
-      start: { row: 5, col: 4}, direction: 'horizontal' }))
+      start: { row: 5, col: 4}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-'],
@@ -160,7 +160,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','A','-','-','-','-','O','-','-'],
          ['-','-','-','-','-','-','-','L','-','-']],
       word: 'abanDON',
-      start: { row: 8, col: 2}, direction: 'horizontal' }))
+      start: { row: 8, col: 2}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -259,7 +259,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','A','-','-','-','-','O','-','-'],
          ['-','-','-','-','-','-','-','L','-','-']],
       word: 'epic',
-      start: { row: 2, col: 6 }, direction: 'vertical' }))
+      start: { row: 2, col: 6 }, direction: 'vertical' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -308,7 +308,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','A','-','-','-','-','O','-','-'],
          ['-','-','-','-','-','-','-','L','-','-']],
       word: 'gulf',
-      start: { row: 3, col: 0}, direction: 'diagonal down' }))
+      start: { row: 3, col: 0}, direction: 'diagonal down' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -335,7 +335,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','A','-','-','-','-','O','-','-'],
          ['-','-','-','-','-','-','-','L','-','-']],
       word: 'Pascal',
-      start: { row: 8, col: 4 }, direction: 'diagonal up' }))
+      start: { row: 8, col: 4 }, direction: 'diagonal up' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -364,7 +364,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','A','-','-','-','-','O','-','-'],
          ['-','-','-','-','-','-','-','L','-','-']],
       word: 'epic',
-      start: { row: 2, col: 6 }, direction: 'vertical', reverse: true }))
+      start: { row: 2, col: 6 }, direction: 'vertical', reverse: true }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -390,7 +390,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','A','-','-','I','-'],
          ['-','-','-','-','R','-','-','L','-']],
       word: 'lIFe',
-      start: { row: 5, col: 1}, direction: 'horizontal', reverse: true }))
+      start: { row: 5, col: 1}, direction: 'horizontal', reverse: true }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-'],
@@ -541,7 +541,7 @@ describe('Test Suite for: wordsearch', function() {
       ]
     );
   });
-  
+
   // xit('should fail', function() {
   //   expect(true).to.equal(false);
   // });

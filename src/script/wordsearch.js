@@ -1,10 +1,3 @@
-var testWords = ['apple', 'pear', 'banana', 'other fruit', 'zebra',
-  'cornacopia', 'razzle-dazzle', 'jumble', 'plankton', 'draught',
-  'carnivore', 'pheasant', 'test', 'data', 'fiber', 'soylent',
-  'sunflower', 'carbohydrate', 'fifth', 'constitution', 'metabolism',
-  'beets', 'oil', 'biohazard', 'natural', 'protein', 'improvement',
-  'profile', 'powder', 'rice', 'building', 'view', 'concert'];
-
 function blankPuzzle(size, fill) {
   var ret = [];
   for (var i = 0; i < size; i ++) {
@@ -49,6 +42,7 @@ function stepDirection(text) {
 
 function insert(params) {
   params = deepCopy(params);
+  var key = { start: params.start, direction: params.direction };
   params.direction = stepDirection(params.direction);
   for (var i = 0; i < params.word.length; i ++) {
     var space = params.grid[params.start.row][params.start.col];
@@ -61,7 +55,7 @@ function insert(params) {
     params.start.row += params.direction.rowStep;
     params.start.col += params.direction.colStep;
   }
-  return params.grid;
+  return { grid: params.grid, key: key };
 }
 
 function fillRandom(grid) {
@@ -100,24 +94,24 @@ function getMatrix(grid, word, direction) {
     grid.length - 1: grid.length - word.length;
   var maxCol = (direction === 'vertical') ?
     grid.length - 1 : grid.length - word.length;
-
   return combinationRanges(
     range(minRow, maxRow, true), range(minCol, maxCol, true), direction
   );
 }
 
-function concatMatrices(grid, word, directions) {
+function concatMatrices(grid, word, directions, randomize) {
   var ret = [];
   for (var i = 0; i < directions.length; i ++) {
-    ret = ret.concat(getMatrix(grid, word, directions[i]));
+    if (randomize) ret = ret.concat(getMatrix(grid, word, directions[i]).randomize());
+    else ret = ret.concat(getMatrix(grid, word, directions[i]));
   }
   return ret;
 }
 
 
 
-module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
-  randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
-  insert: insert, fillRandom: fillRandom, range: range,
-  combinationRanges: combinationRanges, concatMatrices: concatMatrices,
-  getMatrix: getMatrix };
+// module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
+//   randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
+//   insert: insert, fillRandom: fillRandom, range: range,
+//   combinationRanges: combinationRanges, concatMatrices: concatMatrices,
+//   getMatrix: getMatrix };
