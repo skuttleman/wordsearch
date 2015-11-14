@@ -42,8 +42,16 @@ function stepDirection(text) {
 
 function insert(params) {
   params = deepCopy(params);
-  var key = { start: params.start, direction: params.direction };
-  params.direction = stepDirection(params.direction);
+  var direction = stepDirection(params.direction);
+  var point1 = deepCopy(params.start);
+  var point2 = {
+    row: point1.row + (direction.rowStep * params.word.length),
+    col: point1.col + (direction.colStep * params.word.length)
+  };
+  var key = { start: (params.reverse) ? point2 : point1,
+    end: (params.reverse) ? point1 : point2,
+    word: params.word, reverse: !!params.reverse };
+
   for (var i = 0; i < params.word.length; i ++) {
     var space = params.grid[params.start.row][params.start.col];
     var letter = (params.reverse) ?
@@ -52,8 +60,8 @@ function insert(params) {
     if (space === '-') params.grid[params.start.row][params.start.col] = letter;
     else if (space !== letter) return false;
 
-    params.start.row += params.direction.rowStep;
-    params.start.col += params.direction.colStep;
+    params.start.row += direction.rowStep;
+    params.start.col += direction.colStep;
   }
   return { grid: params.grid, key: key };
 }
@@ -105,13 +113,13 @@ function concatMatrices(grid, word, directions, randomize) {
     if (randomize) ret = ret.concat(getMatrix(grid, word, directions[i]).randomize());
     else ret = ret.concat(getMatrix(grid, word, directions[i]));
   }
-  return ret;
+  return ret; 
 }
 
 
-
-// module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
-//   randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
-//   insert: insert, fillRandom: fillRandom, range: range,
-//   combinationRanges: combinationRanges, concatMatrices: concatMatrices,
-//   getMatrix: getMatrix };
+var module = module || {};
+module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
+  randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
+  insert: insert, fillRandom: fillRandom, range: range,
+  combinationRanges: combinationRanges, concatMatrices: concatMatrices,
+  getMatrix: getMatrix };

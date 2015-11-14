@@ -36,7 +36,7 @@ Array.prototype.shuffle = function() {
 }
 
 function makePuzzle(params) {
-  var words = sortedWordList(params.numWords);
+  var words = params.words;
   var i = 0, ret = [], key = [];
   params.directions.sort();
   while (i < words.length) {
@@ -62,13 +62,49 @@ function makePuzzle(params) {
     else ret = resize(ret, ret.length + 1, '-');
   }
   ret = fillRandom(ret);
-  for (i = 0; i < words.length; i ++)
-    console.log(words[i]);
-  for (i = 0; i < ret.length; i ++)
-    console.log(ret[i].join(''));
+  return { grid: ret, key: key };
 }
 
+
+
+
 $(function() {
-  // makePuzzle({ reversable: false, directions: ['vertical', 'diagonal up', 'diagonal down', 'horizontal'], numWords: 30 });
-  makePuzzle({ reversable: false, directions: ['vertical', 'horizontal'], numWords: 30 });
+  var wordList = [];
+  var numWords = 30;
+
+  for (var i = 0; i < numWords; i ++) {
+    $.ajax({
+      type: "GET",
+      url: 'http://randomword.setgetgo.com/get.php',
+      dataType: "jsonp",
+      success: function(data) {
+        // console.log(data);
+        if (wordList.indexOf(data.Word) === -1) wordList.push(data.Word);
+        if (wordList.length === numWords) {
+          wordList = wordList.sort(function(word1, word2) {
+            return word2.length - word1.length;
+          });
+          var puzzle = makePuzzle({ reversable: false, directions: ['vertical', 'diagonal up', 'diagonal down', 'horizontal'], words: wordList });
+          $('body').append('<table class="wordsearch"></table>')
+          for (var i = 0; i < puzzle.grid.length; i ++) {
+            //console.log(puzzle.grid[i].join(''));
+            $('.wordsearch').append('<tr class="wsrow-' + i + '"></tr>')
+            for (var j = 0; j < puzzle.grid[i].length; j ++) {
+              $('.wsrow-' + i).append('<td class="wscell-' + i + '-' + j +
+                '">' + puzzle.grid[i][j] + '</td>'
+              );
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // $.get('https://api.pearson.com:443/v2/dictionaries/ldoce5/entries?headword=apple', function(data) {
+  //   console.log(data);
+  // });
 });
+// $(function() {
+//   makePuzzle({ reversable: false, directions: ['vertical', 'diagonal up', 'diagonal down', 'horizontal'], numWords: 30 });
+//   makePuzzle({ reversable: false, directions: ['vertical', 'horizontal'], numWords: 30 });
+// });
