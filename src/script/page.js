@@ -1,18 +1,14 @@
 var mainPuzzle, dragTrack = {};
 
 function drawGrid(grid) {
-  var $location = $('.puzzle-place-holder');
-  $location.html('<h1>Word Search</h1>');
-  $location.append('<table class="puzzle"></table>');
   var $puzzle = $('.puzzle');
-  // var size = Math.min(window.innerWidth, window.innerHeight) / (grid.length + 4);
-  // var style = 'width: ' + size + 'px; height: ' + size + 'px;';
+  $puzzle.html('');
   for (var i = 0; i < grid.length; i ++) {
-    $puzzle.append('<tr class="puzzle-row puzzle-row--' + i + '"></tr>');
+    $puzzle.append('<div class="puzzle-row puzzle-row--' + i + '"></div>');
     var $row = $('.puzzle-row--' + i);
     for (var j = 0; j < grid[i].length; j ++) {
-      $row.append('<td class="puzzle-cell puzzle-cell--' + i + '-' + j +
-        '">' + grid[i][j] + '</td>');
+      $row.append('<p class="puzzle-cell puzzle-cell--' + i + '-' + j +
+        '">' + grid[i][j] + '</p>');
     }
   }
 }
@@ -79,7 +75,7 @@ $(function() {
     var directions = ['horizontal', 'vertical'].concat(diagonal);
     var reversable = $('#backwards').is(':checked');
     var numWords = parseInt($('#num-words').val());
-    $('.puzzle-place-holder').html('<p>Loading new puzzle...</p>');
+    $('.puzzle').html('<p>Loading new puzzle...</p>');
     mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
       reversable: reversable, callBack: drawPuzzle
     });

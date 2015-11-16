@@ -41,10 +41,10 @@ body {
         display: inline; }
         .main .word-list ul li:not(:last-child)::after {
           content: ', '; }
-  .main .form {
+  .main .main-form {
     flex: 0 0 100%;
     display: flex; }
-    .main .form * {
+    .main .main-form * {
       display: block; }
   @media (orientation: portrait) and (max-width: 1080px) {
     .main .puzzle-place-holder {

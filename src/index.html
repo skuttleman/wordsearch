@@ -15,10 +15,14 @@
   </head>
   <body>
     <main class="main">
-      <section class="puzzle-place-holder"><h1>Word Search</h1></section>
-      <section class="word-list"></section><section>
+      <section class="puzzle-place-holder">
+        <h1>Word Search</h1>
+        <section class="puzzle"></section>
+      </section>
+      <section class="word-list"></section>
+      <form class="main-form">
         <input class="start" type="button" value="New Word Search" onclick="showOptions();" />
-        <form class="puzzle-options hide">
+        <div class="puzzle-options hide">
           <label class="checkbox-label" for="diagonal">
             Allow Diagonal Words
           </label>
@@ -30,9 +34,9 @@
           <label for="num-words">Number of Words</label>
           <select class="num-words" name="num-words" id="num-words"></select>
           <input id="submitform" type="submit" value="Create Puzzle" />
-          <textarea class="hide definition"></textarea>
-        </form>
-      </section>
+        </div>
+        <textarea class="hide definition" disabled="disabled"></textarea>
+      </form>
     </main>
   </body>
 </html>
