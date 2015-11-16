@@ -2,7 +2,65 @@
   font-family: Arimo;
   margin: 0;
   padding: 0;
-}
-table {
+  -webkit-user-select: none;
+  user-select: none;
   text-align: center;
+}
+body {
+  font-size: 200%;
+}
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  .puzzle-place-holder {
+    margin: 10px;
+    flex: 0 0 50%;
+    cursor: pointer;
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 100%;
+      td {
+        border: 2px solid black;
+        justify-content: center;
+        align-items: center;
+        min-width: 1.5em;
+      }
+    }
+  }
+  .word-list {
+    margin: 40px;
+    flex: 0 0 50%;
+    ul {
+      text-align: left;
+      li {
+        list-style: none;
+        display: inline;
+        &:not(:last-child)::after {
+          content: ', ';
+        }
+      }
+    }
+  }
+  .form {
+    flex: 0 0 100%;
+    display: flex;
+    * {
+      display: block;
+    }
+  }
+  @media(orientation: portrait) and (max-width: 1080px) {
+    .puzzle-place-holder {
+      flex: 0 0 100%;
+    }
+    .word-list {
+      flex: 0 0 100%;
+    }
+  }
+}
+.main .hide {
+  display: none;
+}
+.found {
+  text-decoration: line-through;
 }

@@ -45,8 +45,8 @@ function insert(params) {
   var direction = stepDirection(params.direction);
   var point1 = deepCopy(params.start);
   var point2 = {
-    row: point1.row + (direction.rowStep * params.word.length),
-    col: point1.col + (direction.colStep * params.word.length)
+    row: point1.row + (direction.rowStep * (params.word.length - 1)),
+    col: point1.col + (direction.colStep * (params.word.length - 1))
   };
   var key = { start: (params.reverse) ? point2 : point1,
     end: (params.reverse) ? point1 : point2,
@@ -113,8 +113,59 @@ function concatMatrices(grid, word, directions, randomize) {
     if (randomize) ret = ret.concat(getMatrix(grid, word, directions[i]).randomize());
     else ret = ret.concat(getMatrix(grid, word, directions[i]));
   }
-  return ret; 
+  return ret;
 }
+
+Array.prototype.randomize = function() {
+  this.sort(function() {
+    return Math.floor(Math.random() * 2) ? -1 : 1;
+  });
+  return this;
+}
+
+Array.prototype.shuffle = function() {
+  this.push(this.shift());
+  return this;
+}
+
+function addWord(params) {
+  var success = false, ret = params.grid;
+  while (!success) {
+    ret = resize(ret, params.word.length + 1, '-');
+    var matrix = concatMatrices(ret, params.word, params.directions.shuffle(), true);
+    for (var i = 0; i < matrix.length; i ++) {
+      var temp = insert({
+        start: { row: matrix[i].row, col: matrix[i].col },
+        direction: matrix[i].direction, word: params.word, grid: ret,
+        reverse: (params.reversable) ? Math.floor(Math.random() * 2) : false
+      });
+      if (temp) {
+        success = true;
+        ret = temp.grid;
+        i = matrix.length;
+        params.key.push(temp.key);
+      }
+    }
+    if (!success) ret = resize(ret, ret.length + 1, '-');
+  }
+  return { grid: ret, key: params.key };
+}
+
+function makePuzzle(params) {
+  var words = params.words.sort(function(word1, word2) {
+    return word2.length - word1.length;
+  });
+  var ret = {};
+  params.directions.sort();
+  for (var i = 0; i < words.length; i ++) {
+    ret = addWord({ grid: ret.grid || [], key: ret.key || [],
+      directions: params.directions, word: words[i],
+      reversable: params.reversable
+    });
+  }
+  return { grid: fillRandom(ret.grid), key: ret.key };
+}
+
 
 
 var module = module || {};
