@@ -25,7 +25,7 @@ function drawWordList(words) {
   $ul = $('.word-list > ul');
   for (var i = 0; i < words.length; i ++) {
     $ul.append('<li class="word ' + words[i].word + '">' + words[i].word +
-      '<span class="hide">: ' + words[i].definition + '</span></li>');
+      '</li>');
   }
 }
 
@@ -64,7 +64,10 @@ $(function() {
     .on('mousemove', puzzleDrag).on('mouseup', puzzleUp);
 
   $('.word-list').on('mousedown', function(event) {
-    $(event.target).find('span').toggleClass('hide');
+    var word = event.target.innerText;
+    var definition = mainPuzzle.whatIsDefinition(word);
+    console.log(definition);
+    $('.definition').removeClass('hide').text(definition);
   });
 
   $('#submitform').click(function(event) {
@@ -81,7 +84,12 @@ $(function() {
       reversable: reversable, callBack: drawPuzzle
     });
   })
-  .click(); // FOR TESTING ONLY
+  ////////////////////////
+  ////////////////////////
+  /// FOR TESTING ONLY ///
+  ////////////////////////
+  ////////////////////////
+  .click();
 
   $('.puzzle-options').on('keypress', function(event){
     if (event.keyCode === 13) event.preventDefault();

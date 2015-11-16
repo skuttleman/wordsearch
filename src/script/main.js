@@ -9,20 +9,47 @@ function WordSearch(params) {
 }
 
 WordSearch.prototype.addDefinition = function(word, definition) {
-  this.definitions.push({ word: word, definition: definition });
-  if (this.definitions.length === this.numWords) this.newPuzzle();
+  for (var i = 0; i < this.definitions.length; i ++) {
+    if (this.definitions[i].word === word) {
+      this.definitions[i].definition = definition;
+      i = this.definitions.length;
+    }
+  }
+  //this.definitions.push({ word: word, definition: definition });
+  // if (this.definitions.length === this.numWords) this.newPuzzle();
 };
 
+function drill(data) {
+  for (var i = 0; i < (data.results || []).length; i ++) {
+    var result = data.results[i];
+    for (var j = 0; j < (result.senses || []).length; j ++) {
+      var sense = result.senses[j];
+      for (var k = 0; k < (sense.definition || []).length; j ++) {
+        var definition = sense.definition[k];
+        if (definition) return definition;
+      }
+    }
+  }
+}
+
 WordSearch.prototype.getDefinition = function(word) {
+  var self = this, data = {};
   // $.get('https://api.pearson.com:443/v2/dictionaries/ldoce5/entries?headword=' +
   //   word, function(data) {
-  //     console.log(word);
-  //     console.log(data.results[0].senses[0].definition[0]);
-  //     // this.addDefinition(word, data);
+      var definition = drill(data) || 'no definition found';
+      self.addDefinition(word, definition);
   //   }
   // );
-  this.addDefinition(word, 'a placeholder definition for ' + word + ' to be used when the project is ready to have a definition');
 };
+
+WordSearch.prototype.whatIsDefinition = function(word) {
+  for (var i = 0; i < this.definitions.length; i ++) {
+    if (word === this.definitions[i].word) {
+      return this.definitions[i].definition || 'definition look-up in progress...';
+    }
+  }
+  return 'broken';
+}
 
 WordSearch.prototype.newPuzzle = function() {
   this.puzzle = makePuzzle({ directions: this.directions,
@@ -50,7 +77,9 @@ WordSearch.prototype.getWords = function() {
         var random = Math.floor(Math.random() * wordList.length);
         if (ret.indexOf(wordList[random]) === -1) {
           ret.push(wordList[random]);
+          self.definitions.push({ word: wordList[random] });
           self.getDefinition(wordList[random]);
+          if (ret.length === self.numWords) self.newPuzzle();
         }
       }
     }

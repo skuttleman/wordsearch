@@ -137,7 +137,7 @@ function addWord(params) {
       var temp = insert({
         start: { row: matrix[i].row, col: matrix[i].col },
         direction: matrix[i].direction, word: params.word, grid: ret,
-        reverse: (params.reversable) ? Math.floor(Math.random() * 2) : false
+        reverse: (params.reversable) ? Math.floor(Math.random() * 2.2) : false
       });
       if (temp) {
         success = true;
