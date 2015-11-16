@@ -7,50 +7,68 @@
   text-align: center; }
 
 body {
-  font-size: 200%;
   color: #111111;
   background-color: #EEEEFF; }
 
 .main {
-  display: flex;
-  flex-wrap: wrap; }
+  display: flex; }
   .main .puzzle-place-holder {
-    margin: 10px;
-    flex: 0 0 50%;
-    cursor: pointer; }
-    .main .puzzle-place-holder table {
-      margin: 0 auto;
-      border-collapse: collapse;
-      width: 100%; }
-      .main .puzzle-place-holder table td {
-        border: 2px solid black;
-        justify-content: center;
+    margin-top: 10px;
+    flex: 0 0 auto;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vh; }
+    .main .puzzle-place-holder .puzzle .puzzle-row {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: center; }
+      .main .puzzle-place-holder .puzzle .puzzle-row .puzzle-cell {
+        display: flex;
+        width: 1em;
+        height: 1em;
         align-items: center;
-        min-width: 1.5em; }
-    .main .puzzle-place-holder .selecting {
-      background-color: yellow; }
-    .main .puzzle-place-holder .selected {
-      background-color: orange; }
+        justify-content: center;
+        outline: solid 1px #111111;
+        flex: 0 0 auto; }
+        .main .puzzle-place-holder .puzzle .puzzle-row .puzzle-cell.selecting {
+          background-color: yellow; }
+        .main .puzzle-place-holder .puzzle .puzzle-row .puzzle-cell.selected {
+          background-color: orange; }
   .main .word-list {
-    margin: 40px;
-    flex: 0 0 50%; }
+    flex: 0 1 auto; }
+    .main .word-list h2 {
+      margin-top: 10px; }
     .main .word-list ul {
-      text-align: left; }
+      text-align: left;
+      word-wrap: normal; }
       .main .word-list ul li {
         list-style: none;
         display: inline; }
         .main .word-list ul li:not(:last-child)::after {
           content: ', '; }
   .main .main-form {
-    flex: 0 0 100%;
+    flex: 0 0 auto;
     display: flex; }
     .main .main-form * {
       display: block; }
-  @media (orientation: portrait) and (max-width: 1080px) {
+
+@media (max-width: 120vh) {
+  .main {
+    display: flex;
+    flex-wrap: wrap; }
     .main .puzzle-place-holder {
-      flex: 0 0 100%; }
+      margin: 0;
+      height: 100vw;
+      width: 100vw; }
     .main .word-list {
-      flex: 0 0 100%; } }
+      flex: 0 0 100%; }
+      .main .word-list h2 {
+        margin-top: 0; }
+      .main .word-list ul {
+        margin: 10px; } }
 
 .main .hide {
   display: none; }

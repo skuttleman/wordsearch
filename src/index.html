@@ -16,27 +16,30 @@
   <body>
     <main class="main">
       <section class="puzzle-place-holder">
-        <h1>Word Search</h1>
+        <h1 class="title">Word Search</h1>
         <section class="puzzle"></section>
       </section>
-      <section class="word-list"></section>
-      <form class="main-form">
-        <input class="start" type="button" value="New Word Search" onclick="showOptions();" />
-        <div class="puzzle-options hide">
-          <label class="checkbox-label" for="diagonal">
-            Allow Diagonal Words
-          </label>
-          <input type="checkbox" id="diagonal" name="diagonal" />
-          <label class="checkbox-label" for="backwards">
-            Allow Backwards Words
-          </label>
-          <input type="checkbox" id="backwards" name="diagonal" />
-          <label for="num-words">Number of Words</label>
-          <select class="num-words" name="num-words" id="num-words"></select>
-          <input id="submitform" type="submit" value="Create Puzzle" />
+      <section class="word-list">
+        <div class="list-container"></div>
+        <form class="main-form">
+          <input class="start" type="button" value="New Word Search" onclick="showOptions();" />
+          <div class="puzzle-options hide">
+            <label class="checkbox-label" for="diagonal">
+              Allow Diagonal Words
+            </label>
+            <input type="checkbox" id="diagonal" name="diagonal" />
+            <label class="checkbox-label" for="backwards">
+              Allow Backwards Words
+            </label>
+            <input type="checkbox" id="backwards" name="diagonal" />
+            <label for="num-words">Number of Words</label>
+            <select class="num-words" name="num-words" id="num-words"></select>
+            <input id="submitform" type="submit" value="Create Puzzle" />
+          </div>
+        </form>
+        <div class="definition hide">
         </div>
-        <textarea class="hide definition" disabled="disabled"></textarea>
-      </form>
+      </section>
     </main>
   </body>
 </html>

@@ -11,14 +11,15 @@ function drawGrid(grid) {
         '">' + grid[i][j] + '</p>');
     }
   }
+  fitPuzzle();
 }
 
 function drawWordList(words) {
-  var $location = $('.word-list');
+  var $location = $('.list-container');
   $location.html('');
   $location.append('<h2>Words:</h2>');
   $location.append('<ul></ul>');
-  $ul = $('.word-list > ul');
+  $ul = $('.list-container > ul');
   for (var i = 0; i < words.length; i ++) {
     $ul.append('<li class="word ' + words[i].word + '">' + words[i].word +
       '</li>');
@@ -41,10 +42,15 @@ function showOptions() {
 
 function getPuzzleRowCol(x, y) {
   var $puzzle = $('.puzzle');
-  var row = Math.floor((y - $puzzle.position().top) *
-    mainPuzzle.puzzle.grid.length / $puzzle.height());
-  var col = Math.floor((x - $puzzle.position().left) *
-    mainPuzzle.puzzle.grid.length / $puzzle.width());
+  var $puzzleCorner = $('.puzzle-cell--0-0');
+  // console.log($puzzle.position());
+  // console.log(x, y);
+  var row = Math.floor(((y - $puzzleCorner.position().top) /
+    ($puzzleCorner.height() * mainPuzzle.puzzle.grid.length)) *
+    mainPuzzle.puzzle.grid.length);
+  var col = Math.floor(((x - $puzzleCorner.position().left) /
+    ($puzzleCorner.height() * mainPuzzle.puzzle.grid.length)) *
+    mainPuzzle.puzzle.grid.length);
   return { row: row, col: col };
 }
 
@@ -59,10 +65,10 @@ $(function() {
   $('.puzzle-place-holder').on('mousedown', puzzleDown)
     .on('mousemove', puzzleDrag).on('mouseup', puzzleUp);
 
-  $('.word-list').on('mousedown', function(event) {
+  $('.list-container').on('mousedown', function(event) {
     var word = event.target.innerText;
     var definition = mainPuzzle.whatIsDefinition(word);
-    console.log(definition);
+    // console.log(definition);
     $('.definition').removeClass('hide').text(definition);
   });
 
@@ -80,12 +86,12 @@ $(function() {
       reversable: reversable, callBack: drawPuzzle
     });
   })
-  ////////////////////////
-  ////////////////////////
-  /// FOR TESTING ONLY ///
-  ////////////////////////
-  ////////////////////////
-  .click();
+////////////////////////
+////////////////////////
+/// FOR TESTING ONLY ///
+////////////////////////
+////////////////////////
+  // .click();
 
   $('.puzzle-options').on('keypress', function(event){
     if (event.keyCode === 13) event.preventDefault();
@@ -93,7 +99,17 @@ $(function() {
   });
 });
 
-
+function fitPuzzle() {
+  if (mainPuzzle) {
+    var $puzzle = $('.puzzle');
+    var $cells = $('.puzzle-cell');
+    $title = $('.title');
+    var square = (Math.min(window.innerHeight, window.innerWidth) -
+    ($title.height() + 20)) / mainPuzzle.puzzle.grid.length;
+    $cells.css('font-size', square);
+  }
+}
+window.onresize = fitPuzzle;
 
 $(document).on('mouseup', function(event) {
   highlightCells({ classes: ['selecting'], mode: 'clear' });
@@ -108,6 +124,7 @@ function puzzleDown(event) {
 function puzzleDrag(event) {
   if (dragTrack.start) {
     dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
+    console.log('dum')
     highlightCells({ classes: ['selecting'], mode: 'clear' });
     highlightCells({ vector: dragTrack, classes: ['selecting'], mode: 'add' });
   }
@@ -136,7 +153,7 @@ function highlightCells(params) {
   if (params.mode === 'clear') {
               // makeCellList(dragTrack);
     for (var i = 0; i < params.classes.length; i ++) {
-      $('.puzzle td').removeClass(params.classes[i]);
+      $('.puzzle-cell').removeClass(params.classes[i]);
     }
   } else {
     var cellList = makeCellList(params.vector);
