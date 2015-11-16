@@ -1,3 +1,10 @@
+$colorDark: #111111;
+$colorMedDark: #444444;
+$colorMedLight: #999999;
+$colorLight: #EEEEFF;
+$colorSelecting: yellow;
+$colorSelected: orange;
+
 * {
   font-family: Arimo;
   margin: 0;
@@ -8,6 +15,8 @@
 }
 body {
   font-size: 200%;
+  color: $colorDark;
+  background-color: $colorLight;
 }
 .main {
   display: flex;
@@ -26,6 +35,12 @@ body {
         align-items: center;
         min-width: 1.5em;
       }
+    }
+    .selecting {
+      background-color: $colorSelecting;
+    }
+    .selected {
+      background-color: $colorSelected;
     }
   }
   .word-list {
