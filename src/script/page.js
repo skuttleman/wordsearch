@@ -70,15 +70,23 @@ $(function() {
     dragTrack.start = getPuzzleRowCol(event.pageX, event.pageY);
   }).on('mousemove', function(event) {
     if (dragTrack.start) {
-      dragTrack.finish = getPuzzleRowCol(event.pageX, event.pageY);
+      dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
     } else {
       dragTrack = {};
     }
   }).on('mouseup', function(event){
-    if (dragTrack.start && dragTrack.finish) {
-      console.log(dragTrack.start, dragTrack.finish);
+    if (dragTrack.start && dragTrack.end) {
+      var key = mainPuzzle.puzzle.key;
+      for (var i = 0; i < key.length; i ++) {
+        if (key[i].start.row === dragTrack.start.row && key[i].start.col ===
+          dragTrack.start.col && key[i].end.row === dragTrack.end.row &&
+          key[i].end.col === dragTrack.end.col) {
+            console.log(key[i].word);
+            i = key.length;
+        }
+      }
     }
-    console.log(mainPuzzle.puzzle.key);
+    // console.log(mainPuzzle.puzzle.key);
     dragTrack = {};
   });
 
