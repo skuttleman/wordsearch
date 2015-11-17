@@ -14,14 +14,17 @@
     <script type="text/javascript" src="./script/app-min.js"></script>
   </head>
   <body>
+    <header>
+      <h1 class="title">Word Search</h1>
+      <img class="menu-icon" height="1px" src="./images/menu.png" alt="menu" />
+    </header>
     <main class="main">
       <section class="puzzle-place-holder">
-        <h1 class="title">Word Search</h1>
         <section class="puzzle"></section>
       </section>
       <section class="word-list">
         <div class="list-container"></div>
-        <form class="main-form">
+        <form class="main-form hide">
           <input class="start" type="button" value="New Word Search" onclick="showOptions();" />
           <div class="puzzle-options hide">
             <label class="checkbox-label" for="diagonal">

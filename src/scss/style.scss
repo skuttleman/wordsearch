@@ -17,8 +17,14 @@ body {
   color: $colorDark;
   background-color: $colorLight;
 }
+.menu-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
 .main {
   display: flex;
+  // position: fixed;
   .puzzle-place-holder {
     margin-top: 10px;
     flex: 0 0 auto;
@@ -35,8 +41,8 @@ body {
         justify-content: center;
         .puzzle-cell {
           display: flex;
-          width: 1em;
-          height: 1em;
+          width: 1.1em;
+          height: 1.1em;
           align-items: center;
           justify-content: center;
           box-sizing: border-box;
@@ -88,6 +94,7 @@ body {
       width: 100vw;
     }
     .word-list {
+      margin-top: -10vw;
       flex: 0 0 100%;
       h2 {
         margin-top: 0;

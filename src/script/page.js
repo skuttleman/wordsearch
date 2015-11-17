@@ -24,6 +24,7 @@ function drawWordList(words) {
     $ul.append('<li class="word ' + words[i].word + '">' + words[i].word +
       '</li>');
   }
+  fitPuzzle();
 }
 
 function drawPuzzle(puzzle) {
@@ -105,8 +106,13 @@ function fitPuzzle() {
     var $cells = $('.puzzle-cell');
     $title = $('.title');
     var square = (Math.min(window.innerHeight, window.innerWidth) -
-    ($title.height() + 20)) / mainPuzzle.puzzle.grid.length;
-    $cells.css('font-size', square);
+    ($title.height() + 10)) / mainPuzzle.puzzle.grid.length;
+    $cells.css('font-size', square / 1.1);
+    $title = $('h1');
+    $title.css('font-size', square * 1.25).height();
+    $('h2').css('font-size', square * 1.125);
+    $('p,li').css('font-size', square / 1.1);
+    $('.menu-icon').height($title.height() * 0.75);
   }
 }
 window.onresize = fitPuzzle;
@@ -138,14 +144,15 @@ function puzzleDrag(event) {
 
     dragTrack.end = event.originalEvent.touches ?
       getPuzzleRowCol(event.originalEvent.touches[0].pageX,
-      event.originalEvent.touches[0].pageY) : chomp(event); 
+      event.originalEvent.touches[0].pageY) : chomp(event);
     // console.log(coordinates)
       // console.log(coordinates)
       // console.log(event.pageX, event.pageY); // 27 41
 
     // console.log(coordinates)
     highlightCells({ classes: ['selecting'], mode: 'clear' });
-    highlightCells({ vector: dragTrack, classes: ['selecting'], mode: 'add' });
+    dragTrack = highlightCells({ vector: dragTrack, classes: ['selecting'],
+      mode: 'add' });
   }
 }
 
@@ -171,13 +178,17 @@ function puzzleUp(event){
 
 function highlightCells(params) {
   if (params.mode === 'clear') {
-              // makeCellList(dragTrack);
     for (var i = 0; i < params.classes.length; i ++) {
       $('.puzzle-cell').removeClass(params.classes[i]);
     }
   } else {
     var cellList = makeCellList(params.vector);
-    // var cellList = [[0,0],[1,1]];
+    if (cellList.length === 0) return {};
+    var ret = { start: {}, end: {} };
+    ret.start.row = cellList[0][0];
+    ret.start.col = cellList[0][1];
+    ret.end.row = cellList[cellList.length - 1][0];
+    ret.end.col = cellList[cellList.length - 1][1];
     for (i = 0; i < params.classes.length; i ++) {
       for (var j = 0; j < cellList.length; j ++) {
         var row = cellList[j][0];
@@ -190,6 +201,7 @@ function highlightCells(params) {
       }
     }
   }
+  return ret;
 }
 
 function makeCellList(vector) {

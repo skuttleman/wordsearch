@@ -10,6 +10,11 @@ body {
   color: #111111;
   background-color: #EEEEFF; }
 
+.menu-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px; }
+
 .main {
   display: flex; }
   .main .puzzle-place-holder {
@@ -27,11 +32,12 @@ body {
       justify-content: center; }
       .main .puzzle-place-holder .puzzle .puzzle-row .puzzle-cell {
         display: flex;
-        width: 1em;
-        height: 1em;
+        width: 1.1em;
+        height: 1.1em;
         align-items: center;
         justify-content: center;
-        outline: solid 1px #111111;
+        box-sizing: border-box;
+        border: solid 1px #111111;
         flex: 0 0 auto; }
         .main .puzzle-place-holder .puzzle .puzzle-row .puzzle-cell.selecting {
           background-color: yellow; }
@@ -64,6 +70,7 @@ body {
       height: 100vw;
       width: 100vw; }
     .main .word-list {
+      margin-top: -10vw;
       flex: 0 0 100%; }
       .main .word-list h2 {
         margin-top: 0; }
