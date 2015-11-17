@@ -62,8 +62,8 @@ $(function() {
 
 
 
-  $('.puzzle-place-holder').on('mousedown', puzzleDown)
-    .on('mousemove', puzzleDrag).on('mouseup', puzzleUp);
+  $('.puzzle-place-holder').on('mousedown touchstart  ', puzzleDown)
+    .on('mousemove touchmove', puzzleDrag).on('mouseup touchend', puzzleUp);
 
   $('.list-container').on('mousedown', function(event) {
     var word = event.target.innerText;
@@ -91,7 +91,7 @@ $(function() {
 /// FOR TESTING ONLY ///
 ////////////////////////
 ////////////////////////
-  // .click();
+  .click();
 
   $('.puzzle-options').on('keypress', function(event){
     if (event.keyCode === 13) event.preventDefault();
@@ -111,26 +111,46 @@ function fitPuzzle() {
 }
 window.onresize = fitPuzzle;
 
-$(document).on('mouseup', function(event) {
+$(document).on('mouseup touchend', function(event) {
   highlightCells({ classes: ['selecting'], mode: 'clear' });
   dragTrack = {};
 });
 
+function chomp(event) {
+  var coordinates = Array.prototype.filter.call(event.target.classList, function(element) {
+    return element.indexOf('--') + 1;
+  })[0].split('--')[1].split('-');
+  return coordinates.length === 2 ? { row: parseInt(coordinates[0]),
+    col: parseInt(coordinates[1]) } : {};
+}
+
 function puzzleDown(event) {
+  event.preventDefault();
   dragTrack = {};
-  dragTrack.start = getPuzzleRowCol(event.pageX, event.pageY);
+  dragTrack.start = chomp(event);
+  // getPuzzleRowCol(event.pageX, event.pageY);
 }
 
 function puzzleDrag(event) {
+  event.preventDefault();
   if (dragTrack.start) {
-    dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
-    console.log('dum')
+    // dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
+
+    dragTrack.end = event.originalEvent.touches ?
+      getPuzzleRowCol(event.originalEvent.touches[0].pageX,
+      event.originalEvent.touches[0].pageY) : chomp(event); 
+    // console.log(coordinates)
+      // console.log(coordinates)
+      // console.log(event.pageX, event.pageY); // 27 41
+
+    // console.log(coordinates)
     highlightCells({ classes: ['selecting'], mode: 'clear' });
     highlightCells({ vector: dragTrack, classes: ['selecting'], mode: 'add' });
   }
 }
 
 function puzzleUp(event){
+  event.preventDefault();
   if (dragTrack.start && dragTrack.end) {
     var key = mainPuzzle.puzzle.key;
     for (var i = 0; i < key.length; i ++) {
