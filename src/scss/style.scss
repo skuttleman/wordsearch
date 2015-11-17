@@ -39,7 +39,8 @@ body {
           height: 1em;
           align-items: center;
           justify-content: center;
-          outline: solid 1px $colorDark;
+          box-sizing: border-box;
+          border: solid 1px $colorDark;
           flex: 0 0 auto;
           &.selecting {
             background-color: $colorSelecting;
