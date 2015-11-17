@@ -26,6 +26,10 @@ body {
     .page-container .puzzle-container .puzzle .puzzle-cell {
       padding: 0;
       border: 1px solid #111111; }
+      .page-container .puzzle-container .puzzle .puzzle-cell.selecting {
+        background-color: yellow; }
+      .page-container .puzzle-container .puzzle .puzzle-cell.selected {
+        background-color: orange; }
   @media (max-width: 100vh) {
     .page-container .puzzle-container {
       width: 100vw;
@@ -38,9 +42,12 @@ body {
   left: 100vh; }
   .page-container .word-list-container li {
     display: inline;
-    list-style: none; }
-    .page-container .word-list-container li::after:not(:last-child) {
+    list-style: none;
+    cursor: pointer; }
+    .page-container .word-list-container li:not(:last-child)::after {
       content: ', '; }
+    .page-container .word-list-container li .found {
+      text-decoration: line-through; }
   @media (max-width: 130vh) {
     .page-container .word-list-container {
       position: absolute;
@@ -49,5 +56,18 @@ body {
   @media (max-width: 100vh) {
     .page-container .word-list-container {
       position: absolute;
+      top: calc(100vw + 50px);
+      left: 0; } }
+
+.page-container .menu-container {
+  position: absolute;
+  right: 10px;
+  bottom: 10px; }
+  @media (max-width: 110vh) {
+    .page-container .menu-container {
+      top: 100vh;
+      left: 0; } }
+  @media (max-width: 100vh) {
+    .page-container .menu-container {
       top: 100vw;
       left: 0; } }

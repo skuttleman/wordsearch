@@ -4,14 +4,12 @@ function drawGrid(grid) {
   $('.puzzle').remove();
   loadStub({ parent: '.puzzle-container', file: './stubs/puzzle.html',
     params: { puzzle: grid } });
-  fitPuzzle();
 }
 
 function drawWordList(words) {
   $('.word-list').remove();
   loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
     params: { words: words } });
-  fitPuzzle();
 }
 
 function drawPuzzle(puzzle) {
@@ -53,6 +51,7 @@ function loadStub(params) {
       });
     });
   }
+  fitPuzzle();
 }
 
 $(function() {
@@ -68,7 +67,7 @@ $(function() {
             reversable: reversable, callBack: drawPuzzle
           });
 
-  $('.puzzle-place-holder').on('mousedown touchstart  ', puzzleDown)
+  $('.puzzle-container').on('mousedown touchstart  ', puzzleDown)
     .on('mousemove touchmove', puzzleDrag).on('mouseup touchend', puzzleUp);
 
   $('.list-container').on('mousedown', function(event) {
@@ -108,8 +107,12 @@ $(function() {
 function fitPuzzle() {
   if (mainPuzzle) {
     var cellFontSize = $('.puzzle-cell').css('font-size');
-    $('.word-list-container h1').css('font-size', 'calc(1.25 * ' + cellFontSize + ')');
-    $('.word-list-container li').css('font-size', 'calc(0.75 * ' + cellFontSize + ')');
+    $('.word-list-container h1').css('font-size', 'calc(1 * ' +
+      cellFontSize + ')');
+    $('.word-list-container li').css('font-size', 'calc(0.7 * ' +
+      cellFontSize + ')');
+    // $('.menu-button').height(cellFontSize);
+
   }
 }
 window.onresize = fitPuzzle;

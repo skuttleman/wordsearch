@@ -35,6 +35,12 @@ body {
       .puzzle-cell {
         padding: 0;
         border: 1px solid $colorDark;
+        &.selecting {
+          background-color: $colorSelecting;
+        }
+        &.selected {
+          background-color: $colorSelected;
+        }
       }
     }
     @media(max-width: 100vh) {
@@ -50,8 +56,12 @@ body {
     li {
       display: inline;
       list-style: none;
-      &::after:not(:last-child) {
+      cursor: pointer;
+      &:not(:last-child)::after {
         content: ', ';
+      }
+      .found {
+        text-decoration: line-through;
       }
     }
     @media(max-width: 130vh) {
@@ -62,6 +72,19 @@ body {
     }
     @media (max-width: 100vh) {
       position: absolute;
+      top: calc(100vw + 50px);
+      left: 0;
+    }
+  }
+  .menu-container {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    @media(max-width: 110vh) {
+      top: 100vh;
+      left: 0;
+    }
+    @media(max-width: 100vh) {
       top: 100vw;
       left: 0;
     }
