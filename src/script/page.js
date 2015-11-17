@@ -10,7 +10,14 @@ function drawGrid(grid) {
 function drawWordList(key) {
   $('.word-list').remove();
   loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
-    params: { key: key } });
+    params: { key: key } }, function() {
+      for (var i = 0; i < key.length; i ++) {
+        if (key[i].selected) {
+          highlightCells({ vector: key[i], mode: 'add',
+            classes: ['selected'] });
+        }
+      }
+    });
 }
 
 function drawPuzzle(puzzle) {
@@ -38,15 +45,16 @@ function getPuzzleRowCol(x, y) {
   return { row: row, col: col };
 }
 
-function loadStub(params) {
+function loadStub(params, callback) {
   if (params.html) {
     var html = Handlebars.compile(params.html);
     $(params.parent).append(html(params.params));
+    if (callback) callback();
   } else {
     $.get(params.file, function(data) {
       loadStub({ html: data, parent: params.parent,
         params: params.params, blowout: params.blowout
-      });
+      }, callback);
     });
   }
   fitPuzzle();
@@ -196,6 +204,8 @@ function highlightCells(params) {
         var row = cellList[j][0];
         var col = cellList[j][1];
         if (params.mode === 'add') {
+          console.log('.puzzle-cell--' + row + '-' + col);
+          console.log(params.classes[i]);
           $('.puzzle-cell--' + row + '-' + col).addClass(params.classes[i]);
         } else {
           $('.puzzle-cell--' + row + '-' + col).removeClass(params.classes[i]);
@@ -233,5 +243,5 @@ function makeCellList(vector) {
 }
 
 function saveLocal() {
-  //localStorage.wordsearch = JSON.stringify(mainPuzzle);
+  localStorage.wordsearch = JSON.stringify(mainPuzzle);
 }
