@@ -1,9 +1,13 @@
 <div class="word-list">
-  <h1>Word List:</h1>
+  <h2>Word List:</h2>
   <ul class="words">
-    {{#each words}}
+    {{#each key}}
     <li>
-      <span class="word {{this}}">{{this}}</span>
+    {{#if this.selected}}
+      <span class="word {{this.word}} found">{{this.word}}</span>
+    {{else}}
+      <span class="word {{this.word}}">{{this.word}}</span>
+    {{/if}}
     </li>
     {{/each}}
   </ul>

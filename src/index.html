@@ -17,13 +17,41 @@
     <script type="text/javascript" src="./script/app-min.js"></script>
   </head>
   <body>
+    <nav class="nav">
+      <h1>WordSearch</h1>
+      <button class="menu-button">Menu</button>
+    </nav>
     <main class="main">
-      <section class="page-container" id="current">
-        <div class="puzzle-container"></div>
-        <div class="word-list-container"></div>
-        <div class="menu-container">
-          <img class="menu-button" width="60px" src="./images/menu.png" alt="menu button" />
-        </div>
+      <section class="puzzle-container"></section>
+      <section class="word-list-container"></section>
+      <section class="menu-container">
+        <form class="menu">
+          <div class="form-row">
+            <label class="menu-title">Options</label>
+          </div>
+          <div class="form-row">
+            <label class="menu-label" for="diagonal">
+              Allow Diagonal Words
+            </label>
+            <input class="diagonal" type="checkbox" name="diagonal" id="diagonal" />
+          </div>
+          <div class="form-row">
+            <label class="menu-label" for="backwards">
+              Allow Backwards Words
+            </label>
+            <input class="backwards" type="checkbox" name="backwards" id="backwards" />
+          </div>
+          <div class="form-row">
+            <label class="menu-label" for="num-words">
+              Number of Words
+            </label>
+            <input class="num-words"
+              type="textbox" name="num-words" value="15" id="num-words" />
+          </div>
+          <div class="form-row">
+            <input class="submit-form" type="submit" value="Make New Puzzle" />
+          </div>
+        </form>
       </section>
     </main>
   </body>

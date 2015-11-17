@@ -5,7 +5,7 @@
     {{#each this}}
     <td class="puzzle-cell puzzle-cell--{{@../index}}-{{@index}}"
       style="width: calc(100% / {{../this.length}});
-      font-size: calc(80vmin / {{../this.length}});">
+      font-size: calc((80vmin - 50px) / {{../this.length}});">
       {{this}}
     </td>
     {{/each}}

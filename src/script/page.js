@@ -1,4 +1,5 @@
-var mainPuzzle, dragTrack = {};
+var mainPuzzle, dragTrack = {}, minWordCount = 15, maxWordCount=50,
+  menuPosition = '-100vh';
 
 function drawGrid(grid) {
   $('.puzzle').remove();
@@ -6,25 +7,22 @@ function drawGrid(grid) {
     params: { puzzle: grid } });
 }
 
-function drawWordList(words) {
+function drawWordList(key) {
   $('.word-list').remove();
   loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
-    params: { words: words } });
+    params: { key: key } });
 }
 
 function drawPuzzle(puzzle) {
   drawGrid(puzzle.grid);
-  drawWordList(puzzle.key.map(function(element) { return element.word; })
-    .sort(function() {
-      return Math.floor(Math.random() * 2) ? -1 : 1;
-    }
-  ));
+  drawWordList(deepCopy(puzzle.key).sort());
+  saveLocal();
 }
 
-function showOptions() {
-  $('.puzzle-options').removeClass('hide');
-  $('.start').addClass('hide');
-}
+// function showOptions() {
+//   $('.puzzle-options').removeClass('hide');
+//   $('.start').addClass('hide');
+// }
 
 function getPuzzleRowCol(x, y) {
   var $puzzle = $('.puzzle');
@@ -55,41 +53,44 @@ function loadStub(params) {
 }
 
 $(function() {
-  var minWords = 15, maxWords = 50, dragTrack = {};
-  for (var i = minWords; i <= maxWords; i ++) {
-    $('#num-words').append('<option value="' + i + '">' + i + '</option>');
-  }
-
-          var directions = ['horizontal', 'vertical'];
-          var numWords = 15;
-          var reversable = true;
-          mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
-            reversable: reversable, callBack: drawPuzzle
-          });
-
-  $('.puzzle-container').on('mousedown touchstart  ', puzzleDown)
-    .on('mousemove touchmove', puzzleDrag).on('mouseup touchend', puzzleUp);
-
-  $('.list-container').on('mousedown', function(event) {
-    var word = event.target.innerText;
-    var definition = mainPuzzle.whatIsDefinition(word);
-    // console.log(definition);
-    $('.definition').removeClass('hide').text(definition);
+  $('.menu-button').click(function(event) {
+    var $menu = $('.menu-container');
+    if (menuPosition === '50px') menuPosition = '-100vh';
+    else menuPosition = '50px';
+    $menu.animate({ top: menuPosition }, 400);
   });
 
-  $('#submitform').click(function(event) {
+  var load = localStorage.wordsearch;
+  if (load) {
+    mainPuzzle = JSON.parse(load);
+    // mainPuzzle.prototype = new WordSearch();
+    drawPuzzle(mainPuzzle.puzzle);
+  } else {
+    $('.menu-button').click();
+  }
+
+  $('.puzzle-container').on('mousedown touchstart', puzzleDown)
+    .on('mousemove touchmove', puzzleDrag).on('mouseup touchend', puzzleUp);
+
+  $('.submit-form').click(function(event) {
     event.preventDefault();
-    $('.puzzle-options').addClass('hide');
-    $('.start').removeClass('hide');
-    var diagonal = $('#diagonal').is(':checked') ?
+    var diagonal = $('.diagonal').is(':checked') ?
       ['diagonal up', 'diagonal down'] : [];
     var directions = ['horizontal', 'vertical'].concat(diagonal);
-    var reversable = $('#backwards').is(':checked');
-    var numWords = parseInt($('#num-words').val());
-    $('.puzzle').html('<p>Loading new puzzle...</p>');
-    mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
-      reversable: reversable, callBack: drawPuzzle
-    });
+    var reversable = $('.backwards').is(':checked');
+    var numWords = parseInt($('.num-words').val());
+
+    if (isNaN(numWords) || numWords < minWordCount || numWords > maxWordCount) {
+      // throwInvalid(); -->>
+    } else {
+      $('.puzzle-container').html('<p class="puzzle">Loading new puzzle...</p>');
+      menuPosition = '-100vh';
+      $('.menu-container').animate({ top: '-100vh' }, 400, function() {
+        mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
+          reversable: reversable, callBack: drawPuzzle
+        });
+      });
+    }
   })
 ////////////////////////
 ////////////////////////
@@ -100,18 +101,17 @@ $(function() {
 
   $('.puzzle-options').on('keypress', function(event){
     if (event.keyCode === 13) event.preventDefault();
-    $('#submitform')[0].click();
+    $('.submit-form')[0].click();
   });
 });
 
 function fitPuzzle() {
   if (mainPuzzle) {
     var cellFontSize = $('.puzzle-cell').css('font-size');
-    $('.word-list-container h1').css('font-size', 'calc(1 * ' +
+    $('.word-list-container h2').css('font-size', 'calc(1 * ' +
       cellFontSize + ')');
     $('.word-list-container li').css('font-size', 'calc(0.7 * ' +
       cellFontSize + ')');
-    // $('.menu-button').height(cellFontSize);
 
   }
 }
@@ -167,6 +167,8 @@ function puzzleUp(event){
           // Selected word in puzzle
           key[i].selected = true;
           $('.' + key[i].word).addClass('found');
+          makeCellList(dragTrack)
+          saveLocal();
           // console.log(key[i].word);
           highlightCells({ vector: dragTrack, classes: ['selected'],
             mode: 'add' });
@@ -205,6 +207,12 @@ function highlightCells(params) {
 }
 
 function makeCellList(vector) {
+  function ltetgt(a, b) {
+    if (a > b) return -1;
+    else if (a === b) return 0;
+    else return 1;
+  }
+
   var verticalDist = Math.abs(Math.abs(vector.start.row) -
     Math.abs(vector.end.row));
   var horizontalDist = Math.abs(Math.abs(vector.start.col) -
@@ -224,8 +232,6 @@ function makeCellList(vector) {
   return ret;
 }
 
-function ltetgt(a, b) {
-  if (a > b) return -1;
-  else if (a === b) return 0;
-  else return 1;
+function saveLocal() {
+  //localStorage.wordsearch = JSON.stringify(mainPuzzle);
 }

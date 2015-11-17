@@ -17,76 +17,125 @@ body {
   color: $colorDark;
   background-color: $colorLight;
 }
-.page-container {
-  .puzzle-container {
-    padding: 10px;
+.nav {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  padding: 10px;
+  height: 50px;
+  background-color: $colorDark;
+  color: $colorLight;
+  box-sizing: border-box;
+  .menu-button {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vh;
-    box-sizing: border-box;
-    .puzzle {
-      height: 100%;
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-      cursor: pointer;
-      .puzzle-cell {
-        padding: 0;
-        border: 1px solid $colorDark;
-        &.selecting {
-          background-color: $colorSelecting;
-        }
-        &.selected {
-          background-color: $colorSelected;
-        }
+    top: 10px;
+    right: 10px;
+    height: 30px;
+    padding: 0 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 150%;
+  }
+  @media (max-width: 100vh) {
+
+  }
+}
+.puzzle-container {
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  height: calc(100vh - 50px);
+  width: calc(100vh - 50px);
+  box-sizing: border-box;
+  .puzzle {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    cursor: pointer;
+    .puzzle-cell {
+      padding: 0;
+      border: 1px solid $colorDark;
+      &.selecting {
+        background-color: $colorSelecting;
+      }
+      &.selected {
+        background-color: $colorSelected;
       }
     }
-    @media(max-width: 100vh) {
-      width: 100vw;
-      height: 100vw;
-    }
   }
-  .word-list-container {
-    padding: 10px;
+  @media(max-width: 133vh) {
+    padding-top: 60px;
+    position: static;
+    margin: 0 auto;
+  }
+  @media(max-width: 100vh) {
+    padding-top: 10px;
     position: absolute;
-    top: 0;
-    left: 100vh;
+    width: 100vw;
+    height: 100vw;
+  }
+}
+.word-list-container {
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  left: calc(100vh - 50px);
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-height: calc(100vmin - 100px);
     li {
-      display: inline;
       list-style: none;
       cursor: pointer;
-      &:not(:last-child)::after {
-        content: ', ';
-      }
+      padding: 0 10px;
       .found {
         text-decoration: line-through;
+        color: $colorMedDark;
       }
     }
-    @media(max-width: 130vh) {
-      position: absolute;
-      top: 100vh;
-      left: 0;
-
-    }
-    @media (max-width: 100vh) {
-      position: absolute;
-      top: calc(100vw + 50px);
-      left: 0;
-    }
   }
-  .menu-container {
+  @media(max-width: 133vh) {
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    @media(max-width: 110vh) {
-      top: 100vh;
-      left: 0;
-    }
-    @media(max-width: 100vh) {
-      top: 100vw;
-      left: 0;
+    top: 100vh;
+    left: 0;
+    ul {
+      flex-direction: row;
     }
   }
+  @media (max-width: 100vh) {
+    top: calc(100vw + 50px);
+    left: 0;
+  }
+}
+.menu-container {
+  position: fixed;
+  height: calc(100vh - 50px);
+  width: 100vw;
+  z-index: 5;
+  // top: 50px;
+  top: -100vh;
+  .form-row {
+    width: 100vw;
+    height: calc((100vh - 50px) / 6);
+    text-align: left;
+    font-size: 6vmin;
+    label {
+      padding: 10px;
+    }
+    input {
+      margin: 10px;
+      font-size: 5vmin;
+    }
+    .submit-form {
+      background-color: $colorMedDark;
+      color: $colorLight;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  }
+  background-color: $colorMedLight;
+  align-items: center;
 }
