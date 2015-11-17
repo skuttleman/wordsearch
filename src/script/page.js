@@ -1,36 +1,23 @@
 var mainPuzzle, dragTrack = {};
 
 function drawGrid(grid) {
-  var $puzzle = $('.puzzle');
-  $puzzle.html('');
-  for (var i = 0; i < grid.length; i ++) {
-    $puzzle.append('<div class="puzzle-row puzzle-row--' + i + '"></div>');
-    var $row = $('.puzzle-row--' + i);
-    for (var j = 0; j < grid[i].length; j ++) {
-      $row.append('<p class="puzzle-cell puzzle-cell--' + i + '-' + j +
-        '">' + grid[i][j] + '</p>');
-    }
-  }
+  $('.puzzle').remove();
+  loadStub({ parent: '.puzzle-container', file: './stubs/puzzle.html',
+    params: { puzzle: grid } });
   fitPuzzle();
 }
 
 function drawWordList(words) {
-  var $location = $('.list-container');
-  $location.html('');
-  $location.append('<h2>Words:</h2>');
-  $location.append('<ul></ul>');
-  $ul = $('.list-container > ul');
-  for (var i = 0; i < words.length; i ++) {
-    $ul.append('<li class="word ' + words[i].word + '">' + words[i].word +
-      '</li>');
-  }
+  $('.word-list').remove();
+  loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
+    params: { words: words } });
   fitPuzzle();
 }
 
 function drawPuzzle(puzzle) {
   drawGrid(puzzle.grid);
-  drawWordList(puzzle.key.map(function(element) { return { word: element.word,
-    definition: element.definition }; }).sort(function() {
+  drawWordList(puzzle.key.map(function(element) { return element.word; })
+    .sort(function() {
       return Math.floor(Math.random() * 2) ? -1 : 1;
     }
   ));
@@ -55,13 +42,31 @@ function getPuzzleRowCol(x, y) {
   return { row: row, col: col };
 }
 
+function loadStub(params) {
+  if (params.html) {
+    var html = Handlebars.compile(params.html);
+    $(params.parent).append(html(params.params));
+  } else {
+    $.get(params.file, function(data) {
+      loadStub({ html: data, parent: params.parent,
+        params: params.params, blowout: params.blowout
+      });
+    });
+  }
+}
+
 $(function() {
   var minWords = 15, maxWords = 50, dragTrack = {};
   for (var i = minWords; i <= maxWords; i ++) {
     $('#num-words').append('<option value="' + i + '">' + i + '</option>');
   }
 
-
+          var directions = ['horizontal', 'vertical'];
+          var numWords = 15;
+          var reversable = true;
+          mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
+            reversable: reversable, callBack: drawPuzzle
+          });
 
   $('.puzzle-place-holder').on('mousedown touchstart  ', puzzleDown)
     .on('mousemove touchmove', puzzleDrag).on('mouseup touchend', puzzleUp);
@@ -92,7 +97,7 @@ $(function() {
 /// FOR TESTING ONLY ///
 ////////////////////////
 ////////////////////////
-  .click();
+  // .click();
 
   $('.puzzle-options').on('keypress', function(event){
     if (event.keyCode === 13) event.preventDefault();
@@ -102,17 +107,9 @@ $(function() {
 
 function fitPuzzle() {
   if (mainPuzzle) {
-    var $puzzle = $('.puzzle');
-    var $cells = $('.puzzle-cell');
-    $title = $('.title');
-    var square = (Math.min(window.innerHeight, window.innerWidth) -
-    ($title.height() + 10)) / mainPuzzle.puzzle.grid.length;
-    $cells.css('font-size', square / 1.1);
-    $title = $('h1');
-    $title.css('font-size', square * 1.25).height();
-    $('h2').css('font-size', square * 1.125);
-    $('p,li').css('font-size', square / 1.1);
-    $('.menu-icon').height($title.height() * 0.75);
+    var cellFontSize = $('.puzzle-cell').css('font-size');
+    $('.word-list-container h1').css('font-size', 'calc(1.25 * ' + cellFontSize + ')');
+    $('.word-list-container li').css('font-size', 'calc(0.75 * ' + cellFontSize + ')');
   }
 }
 window.onresize = fitPuzzle;

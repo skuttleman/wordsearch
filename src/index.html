@@ -6,6 +6,9 @@
     <!-- jQuery -->
     <script type="text/javascript" src="./script/jquery-min.js"></script>
 
+    <!-- Handlebars -->
+    <script type="text/javascript" src="./script/handlebars-v4.0.4.js"></script>
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css">
 
@@ -14,34 +17,10 @@
     <script type="text/javascript" src="./script/app-min.js"></script>
   </head>
   <body>
-    <header>
-      <h1 class="title">Word Search</h1>
-      <img class="menu-icon" height="1px" src="./images/menu.png" alt="menu" />
-    </header>
     <main class="main">
-      <section class="puzzle-place-holder">
-        <section class="puzzle"></section>
-      </section>
-      <section class="word-list">
-        <div class="list-container"></div>
-        <form class="main-form hide">
-          <input class="start" type="button" value="New Word Search" onclick="showOptions();" />
-          <div class="puzzle-options hide">
-            <label class="checkbox-label" for="diagonal">
-              Allow Diagonal Words
-            </label>
-            <input type="checkbox" id="diagonal" name="diagonal" />
-            <label class="checkbox-label" for="backwards">
-              Allow Backwards Words
-            </label>
-            <input type="checkbox" id="backwards" name="diagonal" />
-            <label for="num-words">Number of Words</label>
-            <select class="num-words" name="num-words" id="num-words"></select>
-            <input id="submitform" type="submit" value="Create Puzzle" />
-          </div>
-        </form>
-        <div class="definition hide">
-        </div>
+      <section class="page-container" id="current">
+        <div class="puzzle-container"></div>
+        <div class="word-list-container"></div>
       </section>
     </main>
   </body>

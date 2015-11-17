@@ -1,0 +1,1 @@
+<table class=puzzle>{{#each puzzle}}<tr class="puzzle-row puzzle-row--{{@index}}" style="height: calc(100% / {{../this.length}});">{{#each this}}<td class="puzzle-cell puzzle-cell--{{@../index}}-{{@index}}" style="width: calc(100% / {{../this.length}}); font-size: calc(80vmin / {{../this.length}});">{{this}}</td>{{/each}}</tr>{{/each}}</table>
