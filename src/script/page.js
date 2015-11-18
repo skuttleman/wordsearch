@@ -1,4 +1,4 @@
-var mainPuzzle, dragTrack = {}, minWordCount = 15, maxWordCount=50,
+var mainPuzzle, dragTrack = {}, minWordCount = 10, maxWordCount = 50,
   menuDisplayed = false, modalCallback;
 
 function drawGrid(grid) {
@@ -9,8 +9,10 @@ function drawGrid(grid) {
 
 function drawWordList(key) {
   $('.word-list').remove();
+  var newKey = deepCopy(key);
+  newKey.sort(function(key1, key2) { return key2.word < key1.word; });
   loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
-    params: { key: key } }, function() {
+    params: { key: newKey } }, function() {
       $('.words').click(showDefinition);
       for (var i = 0; i < key.length; i ++) {
         if (key[i].selected) {
@@ -74,7 +76,7 @@ $(function() {
 
   $('.diagonal')[0].checked = localStorage.diagonal === 'true' ? true : false;
   $('.backwards')[0].checked = localStorage.backwards === 'true' ? true : false;
-  $('.num-words').val(localStorage['num-words'] || '10');
+  $('.num-words').val(localStorage['num-words'] || '15');
   var load = localStorage.wordsearch;
   if (load) {
     mainPuzzle = JSON.parse(load);

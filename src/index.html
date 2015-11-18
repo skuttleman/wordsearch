@@ -10,7 +10,8 @@
     <script type="text/javascript" src="./script/handlebars-v4.0.4.js"></script>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet"
+      type="text/css">
 
     <!-- Local Style and Scripts -->
     <link rel="stylesheet" href="./style/app.css" />
@@ -40,20 +41,23 @@
             <label class="menu-label" for="diagonal">
               Allow Diagonal Words
             </label>
-            <input class="diagonal" type="checkbox" name="diagonal" id="diagonal" />
+            <input class="diagonal" type="checkbox" name="diagonal"
+              id="diagonal" />
           </div>
           <div class="form-row">
             <label class="menu-label" for="backwards">
               Allow Backwards Words
             </label>
-            <input class="backwards" type="checkbox" name="backwards" id="backwards" />
+            <input class="backwards" type="checkbox" name="backwards"
+              id="backwards" />
           </div>
           <div class="form-row">
             <label class="menu-label" for="num-words">
               Number of Words
             </label>
             <input class="num-words"
-              type="text" name="num-words" value="15" id="num-words" />
+              type="number" pattern="pattern="[0-9]*" min="10" max="50"
+                name="num-words" autocomplete="off" id="num-words" />
           </div>
           <div class="form-row">
             <input class="submit-form" type="submit" value="Make New Puzzle" />
