@@ -72,7 +72,8 @@ $(function() {
     event.preventDefault();
     if (menuDisplayed) window.hideMenu();
     else window.showMenu();
-  });
+  })
+.click();
 
   $('.diagonal')[0].checked = localStorage.diagonal === 'true' ? true : false;
   $('.backwards')[0].checked = localStorage.backwards === 'true' ? true : false;
@@ -268,7 +269,7 @@ function isPuzzleFinished() {
     if (!mainPuzzle.puzzle.key[i].selected) return;
   }
   localStorage.clear();
-  popUp('Congratulations! You finished this puzzle', showMenu);
+  popUp('Congratulations! You finished this puzzle!', showMenu);
 }
 
 function popUp(message, callback) {
@@ -281,5 +282,5 @@ function popUp(message, callback) {
 function showDefinition(event) {
   var word = event.target.innerText;
   var definition = WordSearch.prototype.whatIsDefinition.call(mainPuzzle, word);
-  popUp(definition);
+  popUp(word + ': ' + definition);
 }

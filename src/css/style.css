@@ -1,9 +1,14 @@
 * {
   font-family: Arimo, sans-serif;
   margin: 0;
-  padding: 0;
-  -webkit-user-select: none;
-  user-select: none; }
+  padding: 0; }
+  @media (pointer: fine) {
+    * {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none; } }
 
 body {
   color: #111111;
@@ -24,9 +29,10 @@ body {
     right: 10px;
     height: 30px;
     padding: 0 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 150%; }
+    font-size: 150%;
+    background-color: #999999; }
 
 .nevershow {
   display: none; }
@@ -106,16 +112,24 @@ body {
     height: calc((100vh - 50px) / 6);
     text-align: left;
     font-size: 6vmin; }
+    .menu-container .form-row .menu-title {
+      display: block;
+      text-align: center;
+      font-size: 150%; }
     .menu-container .form-row label {
-      padding: 10px; }
+      padding: 20px; }
     .menu-container .form-row input {
-      margin: 10px;
+      margin: 0 20px;
       font-size: 5vmin; }
     .menu-container .form-row .submit-form {
       background-color: #444444;
       color: #EEEEFF;
-      padding: 10px;
-      border-radius: 10px; }
+      padding: 5px 25px;
+      border-radius: 15px; }
+    .menu-container .form-row .tip {
+      display: block;
+      text-align: center;
+      font-size: 75%; }
 
 .modal-container {
   display: none;

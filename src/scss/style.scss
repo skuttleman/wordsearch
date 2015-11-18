@@ -9,9 +9,13 @@ $colorSelected: orange;
   font-family: Arimo, sans-serif;
   margin: 0;
   padding: 0;
-  -webkit-user-select: none;
-  user-select: none;
-  // text-align: center;
+  @media (pointer: fine) {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 }
 body {
   color: $colorDark;
@@ -32,9 +36,10 @@ body {
     right: 10px;
     height: 30px;
     padding: 0 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 150%;
+    background-color: $colorMedLight;
   }
   @media (max-width: 100vh) {
 
@@ -124,18 +129,28 @@ body {
     height: calc((100vh - 50px) / 6);
     text-align: left;
     font-size: 6vmin;
+    .menu-title {
+      display: block;
+      text-align: center;
+      font-size: 150%;
+    }
     label {
-      padding: 10px;
+      padding: 20px;
     }
     input {
-      margin: 10px;
+      margin: 0 20px;
       font-size: 5vmin;
     }
     .submit-form {
       background-color: $colorMedDark;
       color: $colorLight;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 5px 25px;
+      border-radius: 15px;
+    }
+    .tip {
+      display: block;
+      text-align: center;
+      font-size: 75%;
     }
   }
   background-color: $colorMedLight;
