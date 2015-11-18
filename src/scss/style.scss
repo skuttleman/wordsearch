@@ -4,6 +4,8 @@ $colorMedLight: #999999;
 $colorLight: #EEEEFF;
 $colorSelecting: yellow;
 $colorSelected: orange;
+$colorOff: red;
+$colorOn: green;
 
 * {
   font-family: Arimo, sans-serif;
@@ -162,6 +164,38 @@ body {
       display: block;
       text-align: center;
       font-size: 75%;
+    }
+    .boolean {
+      height: 40%;
+      width: 50px;
+      display: inline-block;
+      position: relative;
+      .boolean-off, .boolean-on {
+        border: 1px solid $colorMedDark;
+        position: absolute;
+        height: 100%;
+        width: 50%;
+      }
+      .boolean-off {
+        background-color: $colorOff;
+        border-radius: 50% 0 0 50%;
+        left: 0;
+      }
+      .boolean-on {
+        background-color: $colorOn;
+        border-radius: 0 50% 50% 0;
+        right: 0;
+      }
+      .switch {
+        position: absolute;
+        background-color: $colorLight;
+        border: 2px solid $colorMedDark;
+        border-radius: 5px;
+        top: -5px;
+        height: calc(100% + 10px);
+        width: 60%;
+        z-index: 6;
+      }
     }
   }
   background-color: $colorMedLight;

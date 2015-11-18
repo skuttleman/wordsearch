@@ -41,30 +41,40 @@
             <label class="menu-label" for="diagonal">
               Allow Diagonal Words
             </label>
-            <input class="menu-input diagonal" type="checkbox" name="diagonal"
-              id="diagonal" />
+            <input class="menu-input diagonal nevershow" type="checkbox"
+              name="diagonal" id="diagonal" />
+            <div class="boolean">
+              <div class="switch switch-diagonal"></div>
+              <div class="boolean-off"></div>
+              <div class="boolean-on"></div>
+            </div>
           </div>
           <div class="form-row">
             <label class="menu-label" for="backwards">
               Allow Backwards Words
             </label>
-            <input class="menu-input backwards" type="checkbox" name="backwards"
-              id="backwards" />
+            <input class="menu-input backwards nevershow" type="checkbox"
+              name="backwards" id="backwards" />
+            <div class="boolean">
+              <div class="switch switch-backwards"></div>
+              <div class="boolean-off"></div>
+              <div class="boolean-on"></div>
+            </div>
           </div>
           <div class="form-row">
             <label class="menu-label" for="num-words">
               Number of Words
             </label>
             <input class="menu-input num-words"
-              type="number" pattern="[0-9]*" min="10" max="50"
+              type="number" min="10" max="50"
                 name="num-words" autocomplete="off" id="num-words" />
           </div>
           <div class="form-row">
             <input class="menu-input submit-form" type="submit" value="Make New Puzzle" />
           </div>
           <div class="form-row">
-            <label class="tip"><em>Click on a word in the word list to see its
-              definition.</em>
+            <label class="tip">
+              <em>Click on a word in the word list to see its definition.</em>
             </label>
           </div>
         </form>

@@ -1,5 +1,5 @@
 var mainPuzzle, dragTrack = {}, minWordCount = 10, maxWordCount = 50,
-  menuDisplayed = false, modalCallback;
+  menuDisplayed = false, modalCallback, animSpeed = 400;
 
 function drawGrid(grid) {
   $('.puzzle').remove();
@@ -57,14 +57,26 @@ function loadStub(params, callback) {
   fitPuzzle();
 }
 
+function animateBooleans() {
+  [{ element: '.switch-backwards', checkbox: '.backwards' },
+    { element: '.switch-diagonal', checkbox: '.diagonal' }]
+    .forEach(function(item) {
+      var $element = $(item.element);
+      var checked = $(item.checkbox)[0].checked;
+      $element.animate({ left: checked ? 0 : $element.parent().width() -
+        $element.width() }, animSpeed / 5);
+    });
+}
+
 function hideMenu(callback) {
-  $('.menu-container').animate({ top: '-100vh' }, 400, callback);
+  $('.menu-container').animate({ top: '-100vh' }, animSpeed, callback);
   menuDisplayed = false;
   $('.cheering').remove();
 }
 
 function showMenu() {
-  $('.menu-container').animate({ top: '50px' }, 400);
+  animateBooleans();
+  $('.menu-container').animate({ top: '50px' }, animSpeed);
   menuDisplayed = true;
 }
 
@@ -73,6 +85,12 @@ $(function() {
     event.preventDefault();
     if (menuDisplayed) window.hideMenu();
     else window.showMenu();
+  });
+
+  $('.switch-diagonal, .switch-backwards').on('mousedown', function(event) {
+    $target = $('.' + this.className.split('-')[1]);
+    $target[0].checked = !$target[0].checked;
+    animateBooleans();
   });
 
   $('.diagonal')[0].checked = localStorage.diagonal === 'true' ? true : false;
