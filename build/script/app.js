@@ -1,3 +1,93 @@
+function WordSearch(params) {
+  this.numWords = params.numWords;
+  this.directions = params.directions;
+  this.reversable = params.reversable;
+  this.definitions = [];
+  this.callBack = params.callBack;
+
+  this.getWords();
+}
+
+WordSearch.prototype.addDefinition = function(word, definition) {
+  for (var i = 0; i < this.definitions.length; i ++) {
+    if (this.definitions[i].word === word) {
+      this.definitions[i].definition = definition;
+      i = this.definitions.length;
+    }
+  }
+  //this.definitions.push({ word: word, definition: definition });
+  // if (this.definitions.length === this.numWords) this.newPuzzle();
+};
+
+function drill(data) {
+  for (var i = 0; i < (data.results || []).length; i ++) {
+    var result = data.results[i];
+    for (var j = 0; j < (result.senses || []).length; j ++) {
+      var sense = result.senses[j];
+      for (var k = 0; k < (sense.definition || []).length; j ++) {
+        var definition = sense.definition[k];
+        if (definition) return definition;
+      }
+    }
+  }
+}
+
+WordSearch.prototype.getDefinition = function(word) {
+  var self = this, data = {};
+  // $.get('https://api.pearson.com:443/v2/dictionaries/ldoce5/entries?headword=' +
+  //   word, function(data) {
+      var definition = drill(data) || 'no definition found';
+      self.addDefinition(word, definition);
+  //   }
+  // );
+};
+
+WordSearch.prototype.whatIsDefinition = function(word) {
+  for (var i = 0; i < this.definitions.length; i ++) {
+    if (word === this.definitions[i].word) {
+      return this.definitions[i].definition || 'definition look-up in progress...';
+    }
+  }
+  return 'broken';
+}
+
+WordSearch.prototype.newPuzzle = function() {
+  this.puzzle = makePuzzle({ directions: this.directions,
+    reversable: this.reversable,
+    words: this.definitions.map(function(element) { return element.word; })
+  });
+  for (var i = 0; i < this.puzzle.key.length; i ++) {
+    for (var j = 0; j < this.definitions.length; j ++) {
+      if (this.definitions[j].word === this.puzzle.key[i].word) {
+        this.puzzle.key[i].definition = this.definitions[j].definition;
+        j = this.definitions.length;
+      }
+    }
+  }
+  this.callBack(this.puzzle);
+};
+
+WordSearch.prototype.getWords = function() {
+  var ajax = new XMLHttpRequest();
+  var self = this;
+  ajax.onreadystatechange = function() {
+    if (this.status === 200 && this.readyState === 4) {
+      var wordList = JSON.parse(this.responseText).words, ret = [];
+      while (ret.length < self.numWords) {
+        var random = Math.floor(Math.random() * wordList.length);
+        if (ret.indexOf(wordList[random]) === -1) {
+          ret.push(wordList[random]);
+          self.definitions.push({ word: wordList[random] });
+          self.getDefinition(wordList[random]);
+          if (ret.length === self.numWords) self.newPuzzle();
+        }
+      }
+    }
+  };
+  ajax.open('GET', '/words.json');
+  ajax.send();
+};
+
 var mainPuzzle, dragTrack = {}, minWordCount = 10, maxWordCount = 50,
   menuDisplayed = false, modalCallback;
 
@@ -285,3 +375,180 @@ function showDefinition(event) {
   var definition = WordSearch.prototype.whatIsDefinition.call(mainPuzzle, word);
   popUp(word + ': ' + definition);
 }
+
+function blankPuzzle(size, fill) {
+  var ret = [];
+  for (var i = 0; i < size; i ++) {
+    var newline = [];
+    for (var j = 0; j < size; j ++) {
+      newline.push(fill);
+    }
+    ret.push(newline.slice());
+  }
+  return ret;
+}
+
+function deepCopy(obj) {
+  var ret = (obj instanceof Array) ? [] : {};
+  for (var i in obj) {
+    if (typeof obj[i] === 'object') ret[i] = deepCopy(obj[i]);
+    else ret[i] = obj[i];
+  }
+  return ret;
+}
+
+function randomLetter() {
+  var letter = Math.floor(Math.random() * 26);
+  return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[letter];
+}
+
+function resize(grid, minSize, fill) {
+  var ret = deepCopy(grid);
+  while (ret.length < minSize) ret.push([]);
+  for (var i = 0; i < ret.length; i ++) {
+    while (ret[i].length < minSize) ret[i].push(fill);
+  }
+  return ret;
+}
+
+function stepDirection(text) {
+  if (text === 'vertical') return { rowStep: 1, colStep: 0 };
+  else if (text === 'diagonal up') return { rowStep: -1, colStep: 1 };
+  else if (text === 'diagonal down') return { rowStep: 1, colStep: 1 };
+  else return { rowStep: 0, colStep: 1 };
+}
+
+function insert(params) {
+  params = deepCopy(params);
+  var direction = stepDirection(params.direction);
+  var point1 = deepCopy(params.start);
+  var point2 = {
+    row: point1.row + (direction.rowStep * (params.word.length - 1)),
+    col: point1.col + (direction.colStep * (params.word.length - 1))
+  };
+  var key = { start: (params.reverse) ? point2 : point1,
+    end: (params.reverse) ? point1 : point2,
+    word: params.word, reverse: !!params.reverse };
+
+  for (var i = 0; i < params.word.length; i ++) {
+    var space = params.grid[params.start.row][params.start.col];
+    var letter = (params.reverse) ?
+      params.word[params.word.length - (i + 1)].toUpperCase() :
+      params.word[i].toUpperCase();
+    if (space === '-') params.grid[params.start.row][params.start.col] = letter;
+    else if (space !== letter) return false;
+
+    params.start.row += direction.rowStep;
+    params.start.col += direction.colStep;
+  }
+  return { grid: params.grid, key: key };
+}
+
+function fillRandom(grid) {
+  var ret = deepCopy(grid);
+  for (var i = 0; i < ret.length; i ++) {
+    for (var j = 0; j < ret[i].length; j ++) {
+      if (ret[i][j] === '-') ret[i][j] = randomLetter();
+    }
+  }
+  return ret;
+}
+
+function range(start, end, inclusive) {
+  var ret = [];
+  for (var i = start; i < end + (Number(inclusive) || 0); i ++) {
+    ret.push(i);
+  }
+  return ret;
+}
+
+function combinationRanges(rows, cols, direction) {
+  var ret = [];
+  for (var i = 0; i < rows.length; i ++) {
+    for (var j = 0; j < cols.length; j ++) {
+      ret.push({ row: rows[i], col: cols[j], direction: direction });
+    }
+  }
+  return ret;
+}
+
+function getMatrix(grid, word, direction) {
+  var minRow = (direction === 'diagonal up') ?
+    word.length - 1 : 0;
+  var minCol = 0;
+  var maxRow = (direction === 'horizontal' || direction === 'diagonal up') ?
+    grid.length - 1: grid.length - word.length;
+  var maxCol = (direction === 'vertical') ?
+    grid.length - 1 : grid.length - word.length;
+  return combinationRanges(
+    range(minRow, maxRow, true), range(minCol, maxCol, true), direction
+  );
+}
+
+function concatMatrices(grid, word, directions, randomize) {
+  var ret = [];
+  for (var i = 0; i < directions.length; i ++) {
+    if (randomize) ret = ret.concat(getMatrix(grid, word, directions[i]).randomize());
+    else ret = ret.concat(getMatrix(grid, word, directions[i]));
+  }
+  return ret;
+}
+
+Array.prototype.randomize = function() {
+  this.sort(function() {
+    return Math.floor(Math.random() * 2) ? -1 : 1;
+  });
+  return this;
+}
+
+Array.prototype.shuffle = function() {
+  this.push(this.shift());
+  return this;
+}
+
+function addWord(params) {
+  var success = false, ret = params.grid;
+  while (!success) {
+    ret = resize(ret, params.word.length + 1, '-');
+    var matrix = concatMatrices(ret, params.word, params.directions.shuffle(), true);
+    for (var i = 0; i < matrix.length; i ++) {
+      var temp = insert({
+        start: { row: matrix[i].row, col: matrix[i].col },
+        direction: matrix[i].direction, word: params.word, grid: ret,
+        reverse: (params.reversable) ? Math.floor(Math.random() * 2.2) : false
+      });
+      if (temp) {
+        success = true;
+        ret = temp.grid;
+        i = matrix.length;
+        params.key.push(temp.key);
+      }
+    }
+    if (!success) ret = resize(ret, ret.length + 1, '-');
+  }
+  return { grid: ret, key: params.key };
+}
+
+function makePuzzle(params) {
+  var words = params.words.sort(function(word1, word2) {
+    return word2.length - word1.length;
+  });
+  var ret = {};
+  params.directions.sort();
+  for (var i = 0; i < words.length; i ++) {
+    ret = addWord({ grid: ret.grid || [], key: ret.key || [],
+      directions: params.directions, word: words[i],
+      reversable: params.reversable
+    });
+  }
+  return { grid: fillRandom(ret.grid), key: ret.key };
+}
+
+
+
+var module = module || {};
+module.exports = { blankPuzzle: blankPuzzle, deepCopy: deepCopy,
+  randomLetter: randomLetter, resize: resize, stepDirection: stepDirection,
+  insert: insert, fillRandom: fillRandom, range: range,
+  combinationRanges: combinationRanges, concatMatrices: concatMatrices,
+  getMatrix: getMatrix };
