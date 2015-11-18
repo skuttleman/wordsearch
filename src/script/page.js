@@ -63,8 +63,9 @@ function animateBooleans() {
     .forEach(function(item) {
       var $element = $(item.element);
       var checked = $(item.checkbox)[0].checked;
-      $element.animate({ left: checked ? 0 : $element.parent().width() -
-        $element.width() }, animSpeed / 5);
+      var position = checked ? { left: '0', right: 'auto' } :
+        { left: 'auto', right: '0' };
+      $element.css(position);
     });
 }
 
