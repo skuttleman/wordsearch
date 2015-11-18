@@ -115,18 +115,29 @@ body {
     .menu-container .form-row .menu-title {
       display: block;
       text-align: center;
-      font-size: 150%; }
+      font-size: 150%;
+      width: 100%; }
     .menu-container .form-row label {
-      padding: 20px; }
-    .menu-container .form-row input {
-      margin: 0 20px;
-      font-size: 5vmin; }
+      display: inline-block;
+      padding: 20px;
+      text-align: right;
+      width: 50%; }
+    .menu-container .form-row .menu-input {
+      margin: 20px 20px 0 0;
+      font-size: 5vmin;
+      position: absolute;
+      left: calc(50% + 40px); }
     .menu-container .form-row .submit-form {
       background-color: #444444;
       color: #EEEEFF;
       padding: 5px 25px;
-      border-radius: 15px; }
+      border-radius: 15px;
+      left: 50%;
+      transform: translate(-50%, 0); }
     .menu-container .form-row .tip {
+      margin: 0;
+      padding: 0;
+      width: 100%;
       display: block;
       text-align: center;
       font-size: 75%; }

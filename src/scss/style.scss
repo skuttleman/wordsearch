@@ -133,21 +133,32 @@ body {
       display: block;
       text-align: center;
       font-size: 150%;
+      width: 100%;
     }
     label {
+      display: inline-block;
       padding: 20px;
+      text-align: right;
+      width: 50%;
     }
-    input {
-      margin: 0 20px;
+    .menu-input {
+      margin: 20px 20px 0 0;
       font-size: 5vmin;
+      position: absolute;
+      left: calc(50% + 40px);
     }
     .submit-form {
       background-color: $colorMedDark;
       color: $colorLight;
       padding: 5px 25px;
       border-radius: 15px;
+      left: 50%;
+      transform: translate(-50%, 0);
     }
     .tip {
+      margin: 0;
+      padding: 0;
+      width: 100%;
       display: block;
       text-align: center;
       font-size: 75%;

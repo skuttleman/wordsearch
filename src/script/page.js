@@ -130,7 +130,6 @@ function fitPuzzle() {
       cellFontSize + ')');
     $('.word-list-container li').css('font-size', 'calc(0.7 * ' +
       cellFontSize + ')');
-
   }
 }
 window.onresize = fitPuzzle;
