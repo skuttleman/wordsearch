@@ -57,9 +57,10 @@ function loadStub(params, callback) {
   fitPuzzle();
 }
 
-function hideMenu() {
-  $('.menu-container').animate({ top: '-100vh' }, 400);
+function hideMenu(callback) {
+  $('.menu-container').animate({ top: '-100vh' }, 400, callback);
   menuDisplayed = false;
+  $('.cheering').remove();
 }
 
 function showMenu() {
@@ -102,8 +103,7 @@ $(function() {
       ' and ' + maxWordCount + '!');
     } else {
       $('.puzzle-container').html('<p class="puzzle">Loading new puzzle...</p>');
-      menuPosition = '-100vh';
-      $('.menu-container').animate({ top: '-100vh' }, 400, function() {
+      hideMenu(function() {
         mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
           reversable: reversable, callBack: drawPuzzle
         });
@@ -268,7 +268,9 @@ function isPuzzleFinished() {
   for (var i = 0; i < mainPuzzle.puzzle.key.length; i ++) {
     if (!mainPuzzle.puzzle.key[i].selected) return;
   }
-  localStorage.clear();
+  localStorage.wordsearch = '';
+  $('.main').append('<audio autoplay="autoplay" class="cheering nevershown">' +
+    '<source src="./sounds/cheering.mp3" type="audio/mpeg" /></audio>');
   popUp('Congratulations! You finished this puzzle!', showMenu);
 }
 
