@@ -72,6 +72,9 @@ $(function() {
     else window.showMenu();
   });
 
+  $('.diagonal')[0].checked = localStorage.diagonal === 'true' ? true : false;
+  $('.backwards')[0].checked = localStorage.backwards === 'true' ? true : false;
+  $('.num-words').val(localStorage['num-words'] || '10');
   var load = localStorage.wordsearch;
   if (load) {
     mainPuzzle = JSON.parse(load);
@@ -253,6 +256,9 @@ function makeCellList(vector) {
 
 function saveLocal() {
   localStorage.wordsearch = JSON.stringify(mainPuzzle);
+  localStorage.diagonal = $('.diagonal')[0].checked;
+  localStorage.backwards = $('.backwards')[0].checked;
+  localStorage['num-words'] = $('.num-words').val();
 }
 
 function isPuzzleFinished() {
