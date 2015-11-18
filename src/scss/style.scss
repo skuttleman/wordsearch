@@ -40,6 +40,9 @@ body {
 
   }
 }
+.nevershow {
+  display: none;
+}
 .puzzle-container {
   padding: 10px;
   position: absolute;
@@ -115,7 +118,6 @@ body {
   height: calc(100vh - 50px);
   width: 100vw;
   z-index: 5;
-  // top: 50px;
   top: -100vh;
   .form-row {
     width: 100vw;
@@ -138,4 +140,37 @@ body {
   }
   background-color: $colorMedLight;
   align-items: center;
+}
+.modal-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 20;
+  form {
+    position: fixed;
+    background-color: $colorMedLight;
+    border-radius: 20px;
+    border: 4px solid $colorDark;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+    font-size: 175%;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    .modal-button {
+      padding: 10px 30px;
+      border-radius: 10px;
+      margin: 30px auto 0 auto;
+      background-color: $colorLight;
+      font-size: 75%;
+    }
+  }
 }

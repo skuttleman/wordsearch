@@ -28,6 +28,9 @@ body {
     cursor: pointer;
     font-size: 150%; }
 
+.nevershow {
+  display: none; }
+
 .puzzle-container {
   padding: 10px;
   position: absolute;
@@ -113,3 +116,34 @@ body {
       color: #EEEEFF;
       padding: 10px;
       border-radius: 10px; }
+
+.modal-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 20; }
+  .modal-container form {
+    position: fixed;
+    background-color: #999999;
+    border-radius: 20px;
+    border: 4px solid #111111;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+    font-size: 175%;
+    display: flex;
+    align-content: center;
+    flex-direction: column; }
+    .modal-container form .modal-button {
+      padding: 10px 30px;
+      border-radius: 10px;
+      margin: 30px auto 0 auto;
+      background-color: #EEEEFF;
+      font-size: 75%; }
