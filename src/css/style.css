@@ -218,3 +218,12 @@ body {
     font-weight: lighter;
     color: #131384;
     font-style: italic; }
+
+svg {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  height: calc(100vmin);
+  width: calc(100vmin);
+  background-color: rgba(0, 0, 0, 0.25);
+  opacity: 0.5; }

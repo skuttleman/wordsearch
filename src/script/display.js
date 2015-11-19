@@ -21,6 +21,10 @@ function drawWordList(key) {
 }
 
 function drawPuzzle(puzzle) {
+  $svgSelecting = $('.svg-selecting');
+  $svgSelected = $('.svg-selected');
+  config.svg.selecting = new DrawSVG($svgSelecting, 'yellow', puzzle.grid.length);
+  config.svg.selected = new DrawSVG($svgSelected, 'green', puzzle.grid.length);
   drawGrid(puzzle.grid);
   drawWordList(deepCopy(puzzle.key).sort());
   saveLocal();
@@ -51,11 +55,16 @@ function showMenu() {
 }
 
 function highlightCells(params) {
+  var temp = deepCopy(params.vector);
+  var $puzzle = $('.puzzle');
+
   if (params.mode === 'clear') {
     for (var i = 0; i < params.classes.length; i ++) {
       $('.puzzle-cell').removeClass(params.classes[i]);
     }
   } else {
+    config.svg.selected.addLine(temp.start, temp.end);
+
     var cellList = makeCellList(params.vector);
     var ret = params.vector;
     if (cellList) {
@@ -76,6 +85,7 @@ function highlightCells(params) {
         }
       }
     }
+    config.svg.selected.drawLines($puzzle.width(), $puzzle.height());
     return ret;
   }
 }
@@ -105,6 +115,8 @@ function fitPuzzle() {
     $('.word-list-container li').css('font-size', 'calc(0.7 * ' +
       cellFontSize + ')');
     $('.word-list-container').show();
+    var $puzzle = $('.puzzle');
+    config.svg.selected.drawLines($puzzle.width(), $puzzle.height());
   }
 }
 window.onresize = fitPuzzle;

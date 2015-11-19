@@ -1,5 +1,5 @@
 var mainPuzzle, config = { dragTrack: {}, minWordCount: 10, maxWordCount: 50,
-  menuDisplayed: false, animSpeed: 400, modalCallback: undefined, };
+  menuDisplayed: false, animSpeed: 400, modalCallback: undefined, svg: {} };
 
 function loadStub(params, callback) {
   if (params.html) {
