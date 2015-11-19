@@ -1,4 +1,4 @@
-var wordsearch = require('../src/script/wordsearch.js'),
+var wordsearch = require('../src/script/ws_creator.js'),
   expect = require('chai').expect;
 
 describe('Test Suite for: wordsearch', function() {
@@ -64,7 +64,7 @@ describe('Test Suite for: wordsearch', function() {
   });
 
   it('should insert horizontal word starting at a given position', function() {
-    expect(wordsearch.insert({ grid: blankNine, word: 'aardvark',
+    expect(wordsearch.insertTry({ grid: blankNine, word: 'aardvark',
       start: { row: 0, col: 0}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['A','A','R','D','V','A','R','K','-'],
@@ -78,7 +78,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','-','-']]
       );
 
-    expect(wordsearch.insert({ grid: blankTen, word: 'Children',
+    expect(wordsearch.insertTry({ grid: blankTen, word: 'Children',
       start: { row: 3, col: 1}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
@@ -93,7 +93,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','-','-','-']]
       );
 
-    expect(wordsearch.insert({ grid: blankNine, word: 'TARGET',
+    expect(wordsearch.insertTry({ grid: blankNine, word: 'TARGET',
       start: { row: 7, col: 2}, direction: { rowStep: 0, colStep: 1 } }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-'],
@@ -107,7 +107,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','-','-']]
       );
 
-    expect(wordsearch.insert({ grid: blankTen, word: 'mOnKey',
+    expect(wordsearch.insertTry({ grid: blankTen, word: 'mOnKey',
       start: { row: 1, col: 4}, direction: 'horizontal' }).grid)
       .to.deep.equal(
         [['-','-','-','-','-','-','-','-','-','-'],
@@ -122,7 +122,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','-','-','-']]
       );
 
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-'],
@@ -147,7 +147,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','R','-','-','L','-']]
       );
 
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -177,7 +177,7 @@ describe('Test Suite for: wordsearch', function() {
 
   it('should not insert horizontal word if there are conflicting letters',
     function() {
-      expect(wordsearch.insert({
+      expect(wordsearch.insertTry({
         grid:
           [['-','-','-','-','-','-','-','-','-'],
            ['-','-','-','-','-','-','-','-','-'],
@@ -192,7 +192,7 @@ describe('Test Suite for: wordsearch', function() {
         start: { row: 5, col: 4}, direction: 'horizontal'
       })).to.equal(false);
 
-      expect(wordsearch.insert({
+      expect(wordsearch.insertTry({
         grid:
           [['-','-','-','-','-','-','-','-','-','-'],
            ['-','-','-','-','-','-','-','-','-','-'],
@@ -212,7 +212,7 @@ describe('Test Suite for: wordsearch', function() {
 
   it('should not insert horizontal word if there is not enough room',
     function() {
-      expect(wordsearch.insert({
+      expect(wordsearch.insertTry({
         grid:
           [['-','-','-','-','-','-','-','-','-'],
            ['-','-','-','-','-','-','-','-','-'],
@@ -227,7 +227,7 @@ describe('Test Suite for: wordsearch', function() {
         start: { row: 5, col: 4}, direction: 'horizontal'
       })).to.equal(false);
 
-      expect(wordsearch.insert({
+      expect(wordsearch.insertTry({
         grid:
           [['-','-','-','-','-','-','-','-','-','-'],
            ['-','-','-','-','-','-','-','-','-','-'],
@@ -246,7 +246,7 @@ describe('Test Suite for: wordsearch', function() {
   );
 
   it('should insert vertical word starting at a given position', function() {
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -276,7 +276,7 @@ describe('Test Suite for: wordsearch', function() {
 
   it('should not insert vertical word if there are conflicting letters',
     function() {
-      expect(wordsearch.insert({
+      expect(wordsearch.insertTry({
         grid:
           [['-','-','-','-','-','-','-','-','-','-'],
            ['-','-','-','-','-','-','-','-','-','-'],
@@ -295,7 +295,7 @@ describe('Test Suite for: wordsearch', function() {
   );
 
   it('should insert diagonal word starting at a given position', function() {
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -322,7 +322,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','L','-','-']]
       );
 
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -351,7 +351,7 @@ describe('Test Suite for: wordsearch', function() {
   });
 
   it('should insert words backwards', function() {
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-','-'],
@@ -378,7 +378,7 @@ describe('Test Suite for: wordsearch', function() {
          ['-','-','-','-','-','-','-','L','-','-']]
       );
 
-    expect(wordsearch.insert({
+    expect(wordsearch.insertTry({
       grid:
         [['-','-','-','-','-','-','-','-','-'],
          ['-','-','-','-','-','-','-','-','-'],
