@@ -263,10 +263,13 @@ body {
 }
 svg {
   position: absolute;
-  z-index: 10;
+  z-index: 1;
   pointer-events: none;
-  height: calc(100vmin);
-  width: calc(100vmin);
-    background-color: rgba(0,0,0,0.25);
+  height: calc(100vmin - 60px);
+  width: calc(100vmin - 60px);
   opacity: 0.5;
+  @media (max-width: 100vh) {
+    height: calc(100vmin - 10px);
+    width: calc(100vmin - 10px);
+  }
 }

@@ -9,8 +9,14 @@ DrawSVG.prototype.clear = function() {
   this.$element.html('');
 };
 
+DrawSVG.prototype.dump = function() {
+  this.lines = [];
+}
+
 DrawSVG.prototype.addLine = function(start, end) {
-  this.lines.push({ start: start, end: end });
+  if (start && end) {
+    this.lines.push({ start: start, end: end });
+  }
 };
 
 DrawSVG.prototype.makeElement = function(start, end, width) {

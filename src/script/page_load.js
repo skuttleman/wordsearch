@@ -57,7 +57,10 @@ $(function() {
           config.minWordCount + ' and ' + config.maxWordCount + '!', undefined,
           'warning');
     } else {
-      $('.puzzle-container').html('<p class="puzzle">Loading new puzzle...</p>');
+      $('.puzzle').remove();
+      config.svg.selected.clear();
+      config.svg.selecting.clear();
+      $('.puzzle-container').append('<p class="puzzle-temp">Loading new puzzle...</p>');
       $('.word-list').html('');
       $('.word-list-container').hide();
       hideMenu(function() {

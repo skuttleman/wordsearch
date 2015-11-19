@@ -10,7 +10,7 @@ function getPuzzleRowCol(x, y) {
   return { row: row, col: col };
 }
 
-function makeCellList(vector) {
+function makeCellList(vector, justStraighten) {
   function ltetgt(a, b) {
     if (a > b) return -1;
     else if (a === b) return 0;
@@ -27,12 +27,19 @@ function makeCellList(vector) {
   verticalStep *= ltetgt(vector.start.row, vector.end.row);
   horizontalStep *= ltetgt(vector.start.col, vector.end.col);
   var ret = [], start = deepCopy(vector.start);
-  for (var i = 0; i < wordLength; i ++) {
-    ret.push([start.row, start.col]);
-    start.row += verticalStep;
-    start.col += horizontalStep;
+  if (justStraighten) {
+    var end = {};
+    end.row = start.row + (verticalStep * (wordLength - 1));
+    end.col = start.col + (horizontalStep * (wordLength - 1));
+    return {start: start, end: end}
+  } else {
+    for (var i = 0; i < wordLength; i ++) {
+      ret.push([start.row, start.col]);
+      start.row += verticalStep;
+      start.col += horizontalStep;
+    }
+    return ret;
   }
-  return ret;
 }
 
 function saveLocal() {
