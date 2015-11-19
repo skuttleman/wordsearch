@@ -58,8 +58,8 @@ $(function() {
           'warning');
     } else {
       $('.puzzle').remove();
-      config.svg.selected.clear();
-      config.svg.selecting.clear();
+      if (config.svg.selected) config.svg.selected.clear();
+      if (config.svg.selecting) config.svg.selecting.clear();
       $('.puzzle-container').append('<p class="puzzle-temp">Loading new puzzle...</p>');
       $('.word-list').html('');
       $('.word-list-container').hide();
