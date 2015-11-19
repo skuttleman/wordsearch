@@ -57,14 +57,14 @@ function showMenu() {
 function highlightCells(params) {
   var temp = deepCopy(params.vector);
   var $puzzle = $('.puzzle');
-  if (params.mode === 'clear') {
+  if (params.mode === 'clear' && config.svg.selecting) {
     config.svg.selecting.dump();
     config.svg.selecting.clear();
-  } else if (params.mode === 'selecting') {
+  } else if (params.mode === 'selecting' && config.svg.selecting) {
     config.svg.selecting.dump();
     config.svg.selecting.addLine(temp.start, temp.end);
     config.svg.selecting.drawLines($puzzle.width(), $puzzle.height());
-  } else {
+  } else if (config.svg.selected) {
     config.svg.selected.addLine(temp.start, temp.end);
     config.svg.selected.drawLines($puzzle.width(), $puzzle.height());
   }
