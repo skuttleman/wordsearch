@@ -91,7 +91,7 @@ body {
       padding: 0 10px; }
       .word-list-container ul li.found {
         text-decoration: line-through;
-        color: #5959C9;
+        color: #4CFF4C;
         font-style: italic; }
   @media (max-width: 133vh) {
     .word-list-container {
@@ -186,9 +186,6 @@ body {
   background-color: rgba(0, 0, 0, 0.2); }
   .modal-container form {
     position: fixed;
-    background-color: #FFF;
-    border-radius: 20px;
-    border: 4px solid #000;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -199,7 +196,10 @@ body {
     font-size: 175%;
     display: flex;
     align-content: center;
-    flex-direction: column; }
+    flex-direction: column;
+    border: 4px solid #000;
+    border-radius: 20px;
+    background-color: #8080FF; }
     .modal-container form .modal-button {
       padding: 10px 30px;
       border-radius: 10px;
@@ -207,8 +207,13 @@ body {
       background-color: #1A1AAF;
       color: #FFF;
       font-size: 75%; }
+    .modal-container form.warning {
+      background-color: #FFED33; }
+      .modal-container form.warning .modal-button {
+        background-color: #FA0600; }
   .modal-container .word {
-    font-weight: bolder; }
+    font-weight: bolder;
+    text-decoration: underline; }
   .modal-container .definition {
     font-weight: lighter;
     color: #131384;

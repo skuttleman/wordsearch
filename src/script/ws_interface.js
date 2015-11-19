@@ -79,6 +79,6 @@ WordSearch.prototype.getWords = function() {
     }
   };
   // ajax.open('GET', '/words.json');
-  ajax.open('GET', 'http://words.g15.xyz/db');
+  ajax.open('GET', 'https://words.g15.xyz/db');
   ajax.send();
 };

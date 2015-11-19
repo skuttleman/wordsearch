@@ -80,8 +80,11 @@ function highlightCells(params) {
   }
 }
 
-function popUp(message, callback) {
+function popUp(message, callback, className) {
   $('.modal-message').html(message);
+  var $form = $('.modal-container > form');
+  $form.removeClass();
+  if (className) $form.addClass(className);
   $('.modal-container').show();
   $('.modal-button').focus();
   config.modalCallback = callback;

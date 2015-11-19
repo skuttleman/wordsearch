@@ -112,7 +112,7 @@ body {
       padding: 0 10px;
       &.found {
         text-decoration: line-through;
-        color: $colorMedLight;
+        color: $colorSelected;
         font-style: italic;
       }
     }
@@ -219,12 +219,9 @@ body {
   height: 100vh;
   width: 100vw;
   z-index: 20;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   form {
     position: fixed;
-    background-color: $colorLightest;
-    border-radius: 20px;
-    border: 4px solid $colorDarkest;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -236,6 +233,9 @@ body {
     display: flex;
     align-content: center;
     flex-direction: column;
+    border: 4px solid $colorDarkest;
+    border-radius: 20px;
+    background-color: $colorLight;
     .modal-button {
       padding: 10px 30px;
       border-radius: 10px;
@@ -244,9 +244,16 @@ body {
       color: $colorLightest;
       font-size: 75%;
     }
+    &.warning {
+      background-color: $colorSelecting;
+      .modal-button {
+        background-color: $colorOff;
+      }
+    }
   }
   .word {
     font-weight: bolder;
+    text-decoration: underline;
   }
   .definition {
     font-weight: lighter;

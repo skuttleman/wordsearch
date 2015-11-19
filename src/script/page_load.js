@@ -54,7 +54,8 @@ $(function() {
     if (isNaN(numWords) || numWords < config.minWordCount ||
       numWords > config.maxWordCount) {
         popUp('The number of words must be a number between ' +
-          config.minWordCount + ' and ' + config.maxWordCount + '!');
+          config.minWordCount + ' and ' + config.maxWordCount + '!', undefined,
+          'warning');
     } else {
       $('.puzzle-container').html('<p class="puzzle">Loading new puzzle...</p>');
       $('.word-list').html('');
