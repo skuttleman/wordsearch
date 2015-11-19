@@ -122,9 +122,11 @@ function puzzleDrag(event) {
     config.dragTrack.end = event.originalEvent.touches ?
       getPuzzleRowCol(event.originalEvent.touches[0].pageX,
       event.originalEvent.touches[0].pageY) : chomp(event);
-    highlightCells({ classes: ['selecting'], mode: 'clear' });
-    config.dragTrack = highlightCells({ vector: config.dragTrack,
-      classes: ['selecting'], mode: 'add' });
+    if (config.dragTrack.end) {
+      highlightCells({ classes: ['selecting'], mode: 'clear' });
+      config.dragTrack = highlightCells({ vector: config.dragTrack,
+        classes: ['selecting'], mode: 'add' });
+    }
   }
 }
 
