@@ -11,8 +11,8 @@
       user-select: none; } }
 
 body {
-  color: #111111;
-  background-color: #EEEEFF; }
+  color: #000;
+  background-color: #FFF; }
 
 .nav {
   position: fixed;
@@ -20,19 +20,23 @@ body {
   z-index: 10;
   padding: 10px;
   height: 50px;
-  background-color: #111111;
-  color: #EEEEFF;
+  background-color: #000;
+  color: #FFF;
   box-sizing: border-box; }
   .nav .menu-button {
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
-    height: 30px;
-    padding: 0 20px;
-    border-radius: 10px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
-    font-size: 150%;
-    background-color: #999999; }
+    background: url("../images/menu1.png");
+    background-size: contain;
+    border: none; }
+    .nav .menu-button:hover {
+      background: url("../images/menu2.png"); }
+    .nav .menu-button:active {
+      background: url("../images/menu3.png"); }
 
 .nevershow {
   display: none; }
@@ -50,14 +54,15 @@ body {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
-    cursor: pointer; }
+    cursor: pointer;
+    background-color: #EEEEEE; }
     .puzzle-container .puzzle .puzzle-cell {
       padding: 0;
-      border: 1px solid #111111; }
+      border: 1px solid #131384; }
       .puzzle-container .puzzle .puzzle-cell.selecting {
-        background-color: yellow; }
+        background-color: #FFED33; }
       .puzzle-container .puzzle .puzzle-cell.selected {
-        background-color: orange; }
+        background-color: #4CFF4C; }
   @media (max-width: 133vh) {
     .puzzle-container {
       padding-top: 60px;
@@ -86,7 +91,8 @@ body {
       padding: 0 10px; }
       .word-list-container ul li.found {
         text-decoration: line-through;
-        color: #444444; }
+        color: #5959C9;
+        font-style: italic; }
   @media (max-width: 133vh) {
     .word-list-container {
       position: absolute;
@@ -105,7 +111,7 @@ body {
   width: 100vw;
   z-index: 5;
   top: -100vh;
-  background-color: #999999;
+  background-color: #8080FF;
   align-items: center; }
   .menu-container .form-row {
     width: 100vw;
@@ -128,8 +134,8 @@ body {
       position: absolute;
       left: calc(50% + 40px); }
     .menu-container .form-row .submit-form {
-      background-color: #444444;
-      color: #EEEEFF;
+      background-color: #1A1AAF;
+      color: #FFF;
       padding: 5px 25px;
       border-radius: 15px;
       left: 50%;
@@ -147,22 +153,22 @@ body {
       display: inline-block;
       position: relative; }
       .menu-container .form-row .boolean .boolean-off, .menu-container .form-row .boolean .boolean-on {
-        border: 1px solid #444444;
+        border: 1px solid #1A1AAF;
         position: absolute;
         height: 100%;
         width: 50%; }
       .menu-container .form-row .boolean .boolean-on {
-        background-color: green;
+        background-color: #00C218;
         border-radius: 50% 0 0 50%;
         left: 0; }
       .menu-container .form-row .boolean .boolean-off {
-        background-color: red;
+        background-color: #FA0600;
         border-radius: 0 50% 50% 0;
         right: 0; }
       .menu-container .form-row .boolean .switch {
         position: absolute;
-        background-color: #EEEEFF;
-        border: 2px solid #444444;
+        background-color: #FFF;
+        border: 2px solid #1A1AAF;
         border-radius: 5px;
         top: -5px;
         height: calc(100% + 10px);
@@ -176,12 +182,13 @@ body {
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 20; }
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.2); }
   .modal-container form {
     position: fixed;
-    background-color: #999999;
+    background-color: #FFF;
     border-radius: 20px;
-    border: 4px solid #111111;
+    border: 4px solid #000;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -197,5 +204,12 @@ body {
       padding: 10px 30px;
       border-radius: 10px;
       margin: 30px auto 0 auto;
-      background-color: #EEEEFF;
+      background-color: #1A1AAF;
+      color: #FFF;
       font-size: 75%; }
+  .modal-container .word {
+    font-weight: bolder; }
+  .modal-container .definition {
+    font-weight: lighter;
+    color: #131384;
+    font-style: italic; }

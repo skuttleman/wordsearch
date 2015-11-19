@@ -90,7 +90,8 @@ function popUp(message, callback) {
 function showDefinition(event) {
   var word = event.target.innerText;
   var definition = WordSearch.prototype.whatIsDefinition.call(mainPuzzle, word);
-  popUp(word + ': ' + definition);
+  popUp('<span class="word">' + word + '</span>: ' +
+    '<span class="definition">' + definition + '</span>');
 }
 
 function fitPuzzle() {
