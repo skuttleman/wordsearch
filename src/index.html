@@ -18,12 +18,14 @@
     <script type="text/javascript" src="./script/app-min.js"></script>
   </head>
   <body>
-    <nav class="nav">
-      <h1>WordSearch</h1>
-      <form>
-        <button class="menu-button">Menu</button>
-      </form>
-    </nav>
+    <header>
+      <nav class="nav">
+        <h1>WordSearch</h1>
+        <form>
+          <button class="menu-button">Menu</button>
+        </form>
+      </nav>
+    </header>
     <main class="main">
       <section class="puzzle-container">
         <h2 class="nevershow">Word Search Puzzle</h2>
@@ -45,8 +47,8 @@
               name="diagonal" id="diagonal" />
             <div class="boolean">
               <div class="switch switch-diagonal"></div>
-              <div class="boolean-off"></div>
               <div class="boolean-on"></div>
+              <div class="boolean-off"></div>
             </div>
           </div>
           <div class="form-row">
@@ -57,16 +59,15 @@
               name="backwards" id="backwards" />
             <div class="boolean">
               <div class="switch switch-backwards"></div>
-              <div class="boolean-off"></div>
               <div class="boolean-on"></div>
+              <div class="boolean-off"></div>
             </div>
           </div>
           <div class="form-row">
             <label class="menu-label" for="num-words">
               Number of Words
             </label>
-            <input class="menu-input num-words"
-              type="number" min="10" max="50"
+            <input class="menu-input num-words" type="number" min="10" max="50"
                 name="num-words" autocomplete="off" id="num-words" />
           </div>
           <div class="form-row">

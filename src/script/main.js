@@ -48,7 +48,7 @@ WordSearch.prototype.whatIsDefinition = function(word) {
       return this.definitions[i].definition || 'definition look-up in progress...';
     }
   }
-  return 'broken';
+  return 'definition could not be found.';
 }
 
 WordSearch.prototype.newPuzzle = function() {
@@ -75,11 +75,12 @@ WordSearch.prototype.getWords = function() {
       var wordList = JSON.parse(this.responseText).words, ret = [];
       while (ret.length < self.numWords) {
         var random = Math.floor(Math.random() * wordList.length);
-        if (ret.indexOf(wordList[random]) === -1) {
-          ret.push(wordList[random]);
-          self.definitions.push({ word: wordList[random] });
-          self.getDefinition(wordList[random]);
-          if (ret.length === self.numWords) self.newPuzzle();
+        if (ret.indexOf(wordList[random]) === -1 &&
+          wordList[random].indexOf('-') === -1) {
+            ret.push(wordList[random]);
+            self.definitions.push({ word: wordList[random] });
+            self.getDefinition(wordList[random]);
+            if (ret.length === self.numWords) self.newPuzzle();
         }
       }
     }

@@ -1,13 +1,11 @@
 <div class="word-list">
   <ul class="words">
     {{#each key}}
-    <li>
       {{#if this.selected}}
-      <span class="word {{this.word}} found">{{this.word}}</span>
+        <li class="word {{this.word}} found">{{this.word}}</li>
       {{else}}
-      <span class="word {{this.word}}">{{this.word}}</span>
+        <li class="word {{this.word}}">{{this.word}}</li>
       {{/if}}
-    </li>
     {{/each}}
   </ul>
 </div>

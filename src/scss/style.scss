@@ -101,7 +101,7 @@ body {
       list-style: none;
       cursor: pointer;
       padding: 0 10px;
-      .found {
+      &.found {
         text-decoration: line-through;
         color: $colorMedDark;
       }
@@ -176,13 +176,13 @@ body {
         height: 100%;
         width: 50%;
       }
-      .boolean-off {
-        background-color: $colorOff;
+      .boolean-on {
+        background-color: $colorOn;
         border-radius: 50% 0 0 50%;
         left: 0;
       }
-      .boolean-on {
-        background-color: $colorOn;
+      .boolean-off {
+        background-color: $colorOff;
         border-radius: 0 50% 50% 0;
         right: 0;
       }

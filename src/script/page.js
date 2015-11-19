@@ -1,5 +1,5 @@
-var mainPuzzle, dragTrack = {}, minWordCount = 10, maxWordCount = 50,
-  menuDisplayed = false, modalCallback, animSpeed = 400;
+var mainPuzzle, config = { dragTrack: {}, minWordCount: 10, maxWordCount: 50,
+  menuDisplayed: false, animSpeed: 400, modalCallback: undefined, };
 
 function drawGrid(grid) {
   $('.puzzle').remove();
@@ -7,10 +7,21 @@ function drawGrid(grid) {
     params: { puzzle: grid } });
 }
 
+function alphaSort(obj, element, reverse) {
+  var ret = deepCopy(obj);
+  reverse = reverse ? -1 : 1;
+  ret.sort(function(obj1, obj2) {
+    if (obj1[element] < obj2[element]) return -1 * reverse;
+    else if (obj1[element] > obj2[element]) return 1 * reverse;
+    else return 0;
+  });
+  console.log('sorted')
+  return ret;
+}
+
 function drawWordList(key) {
   $('.word-list').remove();
-  var newKey = deepCopy(key);
-  newKey.sort(function(key1, key2) { return key2.word < key1.word; });
+  var newKey = alphaSort(key, 'word');
   loadStub({ parent: '.word-list-container', file: './stubs/word_list.html',
     params: { key: newKey } }, function() {
       $('.words').click(showDefinition);
@@ -63,28 +74,28 @@ function animateBooleans() {
     .forEach(function(item) {
       var $element = $(item.element);
       var checked = $(item.checkbox)[0].checked;
-      var position = checked ? { left: '0', right: 'auto' } :
-        { left: 'auto', right: '0' };
+      var position = checked ? { left: 'auto', right: '0' } :
+        { left: '0', right: 'auto' };
       $element.css(position);
     });
 }
 
 function hideMenu(callback) {
-  $('.menu-container').animate({ top: '-100vh' }, animSpeed, callback);
-  menuDisplayed = false;
+  $('.menu-container').animate({ top: '-100vh' }, config.animSpeed, callback);
+  config.menuDisplayed = false;
   $('.cheering').remove();
 }
 
 function showMenu() {
   animateBooleans();
-  $('.menu-container').animate({ top: '50px' }, animSpeed);
-  menuDisplayed = true;
+  $('.menu-container').animate({ top: '50px' }, config.animSpeed);
+  config.menuDisplayed = true;
 }
 
 $(function() {
   $('.menu-button').click(function(event) {
     event.preventDefault();
-    if (menuDisplayed) window.hideMenu();
+    if (config.menuDisplayed) window.hideMenu();
     else window.showMenu();
   });
 
@@ -116,11 +127,13 @@ $(function() {
     var reversable = $('.backwards').is(':checked');
     var numWords = parseInt($('.num-words').val());
 
-    if (isNaN(numWords) || numWords < minWordCount || numWords > maxWordCount) {
-      popUp('The number of words must be a number between ' + minWordCount +
-      ' and ' + maxWordCount + '!');
+    if (isNaN(numWords) || numWords < config.minWordCount || numWords > config.maxWordCount) {
+      popUp('The number of words must be a number between ' + config.minWordCount +
+      ' and ' + config.maxWordCount + '!');
     } else {
       $('.puzzle-container').html('<p class="puzzle">Loading new puzzle...</p>');
+      $('.word-list').html('');
+      $('.word-list-container').hide();
       hideMenu(function() {
         mainPuzzle = new WordSearch({ directions: directions, numWords: numWords,
           reversable: reversable, callBack: drawPuzzle
@@ -137,8 +150,8 @@ $(function() {
   $('.modal-button').on('click', function(event) {
     event.preventDefault();
     $('.modal-container').hide();
-    if (modalCallback) modalCallback();
-    modalCallback = null;
+    if (config.modalCallback) config.modalCallback();
+    config.modalCallback = null;
   });
 });
 
@@ -149,13 +162,14 @@ function fitPuzzle() {
       cellFontSize + ')');
     $('.word-list-container li').css('font-size', 'calc(0.7 * ' +
       cellFontSize + ')');
+    $('.word-list-container').show();
   }
 }
 window.onresize = fitPuzzle;
 
 $(document).on('mouseup touchend', function(event) {
   highlightCells({ classes: ['selecting'], mode: 'clear' });
-  dragTrack = {};
+  config.dragTrack = {};
 });
 
 function chomp(event) {
@@ -171,17 +185,17 @@ function chomp(event) {
 
 function puzzleDown(event) {
   event.preventDefault();
-  dragTrack = {};
-  dragTrack.start = chomp(event);
+  config.dragTrack = {};
+  config.dragTrack.start = chomp(event);
   // getPuzzleRowCol(event.pageX, event.pageY);
 }
 
 function puzzleDrag(event) {
   event.preventDefault();
-  if (dragTrack && dragTrack.start) {
-    // dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
+  if (config.dragTrack && config.dragTrack.start) {
+    // config.dragTrack.end = getPuzzleRowCol(event.pageX, event.pageY);
 
-    dragTrack.end = event.originalEvent.touches ?
+    config.dragTrack.end = event.originalEvent.touches ?
       getPuzzleRowCol(event.originalEvent.touches[0].pageX,
       event.originalEvent.touches[0].pageY) : chomp(event);
     // console.log(coordinates)
@@ -190,26 +204,26 @@ function puzzleDrag(event) {
 
     // console.log(coordinates)
     highlightCells({ classes: ['selecting'], mode: 'clear' });
-    dragTrack = highlightCells({ vector: dragTrack, classes: ['selecting'],
+    config.dragTrack = highlightCells({ vector: config.dragTrack, classes: ['selecting'],
       mode: 'add' });
   }
 }
 
 function puzzleUp(event){
   event.preventDefault();
-  if (dragTrack && dragTrack.start && dragTrack.end) {
+  if (config.dragTrack && config.dragTrack.start && config.dragTrack.end) {
     var key = mainPuzzle.puzzle.key;
     for (var i = 0; i < key.length; i ++) {
-      if (key[i].start.row === dragTrack.start.row && key[i].start.col ===
-        dragTrack.start.col && key[i].end.row === dragTrack.end.row &&
-        key[i].end.col === dragTrack.end.col && !key[i].selected) {
+      if (key[i].start.row === config.dragTrack.start.row && key[i].start.col ===
+        config.dragTrack.start.col && key[i].end.row === config.dragTrack.end.row &&
+        key[i].end.col === config.dragTrack.end.col && !key[i].selected) {
           // Selected word in puzzle
           key[i].selected = true;
           $('.' + key[i].word).addClass('found');
-          makeCellList(dragTrack)
+          makeCellList(config.dragTrack)
           saveLocal();
           // console.log(key[i].word);
-          highlightCells({ vector: dragTrack, classes: ['selected'],
+          highlightCells({ vector: config.dragTrack, classes: ['selected'],
             mode: 'add' });
           i = key.length;
           isPuzzleFinished();
@@ -295,7 +309,7 @@ function popUp(message, callback) {
   $('.modal-message').html(message);
   $('.modal-container').show();
   $('.modal-button').focus();
-  modalCallback = callback;
+  config.modalCallback = callback;
 }
 
 function showDefinition(event) {

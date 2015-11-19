@@ -84,7 +84,7 @@ body {
       list-style: none;
       cursor: pointer;
       padding: 0 10px; }
-      .word-list-container ul li .found {
+      .word-list-container ul li.found {
         text-decoration: line-through;
         color: #444444; }
   @media (max-width: 133vh) {
@@ -151,12 +151,12 @@ body {
         position: absolute;
         height: 100%;
         width: 50%; }
-      .menu-container .form-row .boolean .boolean-off {
-        background-color: red;
-        border-radius: 50% 0 0 50%;
-        left: 0; }
       .menu-container .form-row .boolean .boolean-on {
         background-color: green;
+        border-radius: 50% 0 0 50%;
+        left: 0; }
+      .menu-container .form-row .boolean .boolean-off {
+        background-color: red;
         border-radius: 0 50% 50% 0;
         right: 0; }
       .menu-container .form-row .boolean .switch {
