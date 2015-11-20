@@ -141,7 +141,6 @@ function puzzleUp(event){
         var straight = makeCellList(config.dragTrack, true);
         key[i].start = straight.start;
         key[i].end = straight.end;
-        console.log(straight);
         highlightCells({ vector: straight, mode: 'selected' });
         i = key.length;
         saveLocal();

@@ -27,12 +27,12 @@ WordSearch.prototype.addDefinition = function(word, definition) {
 
 WordSearch.prototype.getDefinition = function(word) {
   var self = this, data = {};
-  // $.get('https://api.pearson.com:443/v2/dictionaries/ldoce5/entries?headword=' +
-  //   word, function(data) {
+  $.get('https://api.pearson.com:443/v2/dictionaries/ldoce5/entries?headword=' +
+    word, function(data) {
       var definition = drillAPI(data) || 'no definition found';
       self.addDefinition(word, definition);
-  //   }
-  // );
+    }
+  );
 };
 
 WordSearch.prototype.whatIsDefinition = function(word) {
