@@ -7,7 +7,7 @@ var gulp = require('gulp'),
   mocha = require('gulp-mocha'),
   del = require('del');
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['htmlProcess', 'scssProcess', 'jsProcess', 'watch']);
 
 // HTML Minify to ./build/
 gulp.task('htmlProcess', function() {
