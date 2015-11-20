@@ -133,6 +133,12 @@ body {
       font-size: 5vmin;
       position: absolute;
       left: calc(50% + 40px); }
+      .menu-container .form-row .menu-input.num-words {
+        margin-left: 10px;
+        width: 12vmin;
+        border-radius: 5px;
+        border: 2px solid #1A1AAF;
+        padding-left: 5px; }
     .menu-container .form-row .submit-form {
       background-color: #1A1AAF;
       color: #FFF;

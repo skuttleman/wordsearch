@@ -160,6 +160,13 @@ body {
       font-size: 5vmin;
       position: absolute;
       left: calc(50% + 40px);
+      &.num-words {
+        margin-left: 10px;
+        width: 12vmin;
+        border-radius: 5px;
+        border: 2px solid $colorMedDark;
+        padding-left: 5px;
+      }
     }
     .submit-form {
       background-color: $colorMedDark;
