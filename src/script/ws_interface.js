@@ -69,7 +69,8 @@ WordSearch.prototype.getWords = function() {
       while (ret.length < self.numWords) {
         var random = Math.floor(Math.random() * wordList.length);
         if (ret.indexOf(wordList[random]) === -1 &&
-          wordList[random].indexOf('-') === -1) {
+          wordList[random].indexOf('-') === -1 &&
+          wordList[random].indexOf('\'') === -1) {
             ret.push(wordList[random]);
             self.definitions.push({ word: wordList[random] });
             self.getDefinition(wordList[random]);
@@ -78,7 +79,6 @@ WordSearch.prototype.getWords = function() {
       }
     }
   };
-  // ajax.open('GET', '/words.json');
   ajax.open('GET', 'https://words.g15.xyz/db');
   ajax.send();
 };
