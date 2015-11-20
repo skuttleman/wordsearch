@@ -5,12 +5,12 @@ function loadStub(params, callback) {
   if (params.html) {
     var html = Handlebars.compile(params.html);
     $(params.parent).append(html(params.params));
-    if (callback) callback(params.params.id);
+    if (callback) callback(params.callbackParams);
   } else {
     $.get(params.file, function(data) {
       loadStub({ html: data, parent: params.parent,
-        params: params.params, blowout: params.blowout
-      }, callback);
+        params: params.params, blowout: params.blowout,
+        callbackParams: params.callbackParams }, callback);
     });
   }
   fitPuzzle();
@@ -58,8 +58,8 @@ $(function() {
           'warning');
     } else {
       $('.puzzle').remove();
-      config.svg.selected.clear();
-      config.svg.selecting.clear();
+      if (config.svg.selected) config.svg.selected.clear();
+      if (config.svg.selecting) config.svg.selecting.clear();
       $('.puzzle-container').append('<p class="puzzle-temp">Loading new puzzle...</p>');
       $('.word-list').html('');
       $('.word-list-container').hide();
@@ -81,6 +81,4 @@ $(function() {
     if (config.modalCallback) config.modalCallback();
     config.modalCallback = null;
   });
-  console.log('here')
-  window.setTimeout(createToolTip, 1000, { message: 'test' });
 });

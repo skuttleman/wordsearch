@@ -140,7 +140,7 @@ body {
   align-items: center;
   .form-row {
     width: 100vw;
-    height: calc((100vh - 50px) / 6);
+    height: calc((100vh - 50px) / 5);
     text-align: left;
     font-size: 6vmin;
     .menu-title {
@@ -168,14 +168,6 @@ body {
       border-radius: 15px;
       left: 50%;
       transform: translate(-50%, -50%);
-    }
-    .tip {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      display: block;
-      text-align: center;
-      font-size: 75%;
     }
     .boolean {
       height: 5vmin;
@@ -263,7 +255,7 @@ body {
 }
 .tip-container {
   position: fixed;
-  border: 1px solid $colorDarkest;
+  border: 2px solid $colorDarkest;
   color: $colorLight;
   background-color: $colorLightest;
   border-radius: 10px;
@@ -271,9 +263,7 @@ body {
   bottom: -500px;
   right: 10px;
   max-width: 50%;
-  .tip {
-    font-size: 75%;
-  }
+  z-index: 30;
 }
 svg {
   position: absolute;

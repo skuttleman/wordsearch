@@ -27,6 +27,7 @@ function drawPuzzle(puzzle) {
   drawGrid(puzzle.grid);
   drawWordList(deepCopy(puzzle.key).sort());
   saveLocal();
+  tipHighlight();
 }
 
 function displayBooleans() {
@@ -56,14 +57,14 @@ function showMenu() {
 function highlightCells(params) {
   var temp = deepCopy(params.vector);
   var $puzzle = $('.puzzle');
-  if (params.mode === 'clear') {
+  if (params.mode === 'clear' && config.svg.selecting) {
     config.svg.selecting.dump();
     config.svg.selecting.clear();
-  } else if (params.mode === 'selecting') {
+  } else if (params.mode === 'selecting' && config.svg.selecting) {
     config.svg.selecting.dump();
     config.svg.selecting.addLine(temp.start, temp.end);
     config.svg.selecting.drawLines($puzzle.width(), $puzzle.height());
-  } else {
+  } else if (config.svg.selected) {
     config.svg.selected.addLine(temp.start, temp.end);
     config.svg.selected.drawLines($puzzle.width(), $puzzle.height());
   }
@@ -82,6 +83,7 @@ function popUp(message, callback, className) {
 function showDefinition(event) {
   var word = event.target.innerText;
   var definition = WordSearch.prototype.whatIsDefinition.call(mainPuzzle, word);
+  localStorage.tipDefine = 'true';
   popUp('<span class="word">' + word + '</span>: ' +
     '<span class="definition">' + definition + '</span>');
 }
@@ -114,6 +116,7 @@ function puzzleDown(event) {
 function puzzleDrag(event) {
   event.preventDefault();
   if (config.dragTrack && config.dragTrack.start) {
+    localStorage.firstHighlight = 'true';
     config.dragTrack.end = event.originalEvent.touches ?
       getPuzzleRowCol(event.originalEvent.touches[0].pageX,
       event.originalEvent.touches[0].pageY) : chomp(event);
@@ -132,6 +135,7 @@ function puzzleUp(event){
       config.dragTrack.start, config.dragTrack.end).toLowerCase();
     for (var i = 0; i < key.length; i ++) {
       if (word === key[i].word && !key[i].selected) {
+        setTimeout(tipDefine, 4000);
         key[i].selected = true;
         $('.' + word).addClass('found');
         var straight = makeCellList(config.dragTrack, true);
