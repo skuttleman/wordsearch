@@ -12,8 +12,7 @@ function drawWordList(key) {
       $('.words').click(showDefinition);
       for (var i = 0; i < key.length; i ++) {
         if (key[i].selected) {
-          highlightCells({ vector: key[i], mode: 'add',
-            classes: ['selected'] });
+          highlightCells({ vector: key[i], mode: 'selected' });
         }
       }
     }
@@ -135,7 +134,11 @@ function puzzleUp(event){
       if (word === key[i].word && !key[i].selected) {
         key[i].selected = true;
         $('.' + word).addClass('found');
-        highlightCells({ vector: config.dragTrack, mode: 'selected' });
+        var straight = makeCellList(config.dragTrack, true);
+        key[i].start = straight.start;
+        key[i].end = straight.end;
+        console.log(straight);
+        highlightCells({ vector: straight, mode: 'selected' });
         i = key.length;
         saveLocal();
         isPuzzleFinished();

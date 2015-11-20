@@ -58,3 +58,14 @@ function isPuzzleFinished() {
     '<source src="./sounds/cheering.mp3" type="audio/mpeg" /></audio>');
   popUp('Congratulations! You finished this puzzle!', showMenu);
 }
+
+function animateTip(element) {
+  var $target = $('#' + element);
+  $target.animate('bottom', '10px');
+}
+
+function createToolTip(params) {
+  var d = new Date();
+  loadStub({ parent: '.main', file: './stubs/tool_tip.html',
+    params: { tip: params.message, id: d.getTime() } }, animateTip);
+}

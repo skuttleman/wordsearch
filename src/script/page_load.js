@@ -5,7 +5,7 @@ function loadStub(params, callback) {
   if (params.html) {
     var html = Handlebars.compile(params.html);
     $(params.parent).append(html(params.params));
-    if (callback) callback();
+    if (callback) callback(params.params.id);
   } else {
     $.get(params.file, function(data) {
       loadStub({ html: data, parent: params.parent,
@@ -81,4 +81,6 @@ $(function() {
     if (config.modalCallback) config.modalCallback();
     config.modalCallback = null;
   });
+  console.log('here')
+  window.setTimeout(createToolTip, 1000, { message: 'test' });
 });
