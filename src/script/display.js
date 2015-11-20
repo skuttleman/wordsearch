@@ -12,8 +12,7 @@ function drawWordList(key) {
       $('.words').click(showDefinition);
       for (var i = 0; i < key.length; i ++) {
         if (key[i].selected) {
-          highlightCells({ vector: key[i], mode: 'add',
-            classes: ['selected'] });
+          highlightCells({ vector: key[i], mode: 'selected' });
         }
       }
     }
@@ -28,6 +27,7 @@ function drawPuzzle(puzzle) {
   drawGrid(puzzle.grid);
   drawWordList(deepCopy(puzzle.key).sort());
   saveLocal();
+  tipHighlight();
 }
 
 function displayBooleans() {
@@ -83,6 +83,7 @@ function popUp(message, callback, className) {
 function showDefinition(event) {
   var word = event.target.innerText;
   var definition = WordSearch.prototype.whatIsDefinition.call(mainPuzzle, word);
+  localStorage.tipDefine = 'true';
   popUp('<span class="word">' + word + '</span>: ' +
     '<span class="definition">' + definition + '</span>');
 }
@@ -115,6 +116,7 @@ function puzzleDown(event) {
 function puzzleDrag(event) {
   event.preventDefault();
   if (config.dragTrack && config.dragTrack.start) {
+    localStorage.firstHighlight = 'true';
     config.dragTrack.end = event.originalEvent.touches ?
       getPuzzleRowCol(event.originalEvent.touches[0].pageX,
       event.originalEvent.touches[0].pageY) : chomp(event);
@@ -133,9 +135,14 @@ function puzzleUp(event){
       config.dragTrack.start, config.dragTrack.end).toLowerCase();
     for (var i = 0; i < key.length; i ++) {
       if (word === key[i].word && !key[i].selected) {
+        setTimeout(tipDefine, 4000);
         key[i].selected = true;
         $('.' + word).addClass('found');
-        highlightCells({ vector: config.dragTrack, mode: 'selected' });
+        var straight = makeCellList(config.dragTrack, true);
+        key[i].start = straight.start;
+        key[i].end = straight.end;
+        console.log(straight);
+        highlightCells({ vector: straight, mode: 'selected' });
         i = key.length;
         saveLocal();
         isPuzzleFinished();

@@ -5,12 +5,12 @@ function loadStub(params, callback) {
   if (params.html) {
     var html = Handlebars.compile(params.html);
     $(params.parent).append(html(params.params));
-    if (callback) callback();
+    if (callback) callback(params.callbackParams);
   } else {
     $.get(params.file, function(data) {
       loadStub({ html: data, parent: params.parent,
-        params: params.params, blowout: params.blowout
-      }, callback);
+        params: params.params, blowout: params.blowout,
+        callbackParams: params.callbackParams }, callback);
     });
   }
   fitPuzzle();

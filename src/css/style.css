@@ -115,7 +115,7 @@ body {
   align-items: center; }
   .menu-container .form-row {
     width: 100vw;
-    height: calc((100vh - 50px) / 6);
+    height: calc((100vh - 50px) / 5);
     text-align: left;
     font-size: 6vmin; }
     .menu-container .form-row .menu-title {
@@ -140,13 +140,6 @@ body {
       border-radius: 15px;
       left: 50%;
       transform: translate(-50%, -50%); }
-    .menu-container .form-row .tip {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      display: block;
-      text-align: center;
-      font-size: 75%; }
     .menu-container .form-row .boolean {
       height: 5vmin;
       width: 12vmin;
@@ -218,6 +211,18 @@ body {
     font-weight: lighter;
     color: #131384;
     font-style: italic; }
+
+.tip-container {
+  position: fixed;
+  border: 2px solid #000;
+  color: #8080FF;
+  background-color: #FFF;
+  border-radius: 10px;
+  padding: 10px 20px;
+  bottom: -500px;
+  right: 10px;
+  max-width: 50%;
+  z-index: 30; }
 
 svg {
   position: absolute;

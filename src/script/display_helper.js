@@ -58,3 +58,42 @@ function isPuzzleFinished() {
     '<source src="./sounds/cheering.mp3" type="audio/mpeg" /></audio>');
   popUp('Congratulations! You finished this puzzle!', showMenu);
 }
+
+function animateTip(params) {
+  var $target = $('#' + params.id);
+  $target.animate({ bottom: '10px' }, params.animSpeed, function() {
+    window.setTimeout(function() {
+      $target.animate({ bottom: '-500px' }, params.animSpeed, function() {
+        $target.remove();
+      })
+    }, params.wait);
+  });
+}
+
+function createToolTip(message) {
+  var id = (new Date()).getTime();
+  loadStub({ parent: '.main', file: './stubs/tool_tip.html',
+    params: { tip: message, id: id },
+    callbackParams: { id: id, animSpeed: config.animSpeed * 4, wait: 3000 }},
+    animateTip);
+}
+
+function tipHighlight() {
+  setTimeout(function() {
+    if (!localStorage.firstHighlight) {
+      createToolTip(
+        'Click and drag your mouse over the puzzle to highlight words as you find them.'
+      );
+      setTimeout(tipHighlight, 4000);
+    }
+  }, 3000);
+}
+
+function tipDefine() {
+  if (!localStorage.tipDefine) {
+    localStorage.tipDefine = 'true';
+    createToolTip(
+      'Don\'t know what a word in the word list means? Click on it to see its definition'
+    );
+  }
+}
